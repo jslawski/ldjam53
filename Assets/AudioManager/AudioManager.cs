@@ -1,0 +1,113 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Audio;
+
+public class AudioManager : MonoBehaviour
+{
+    public static AudioManager instance;
+
+    [SerializeField]
+    private GameObject audioChannelPrefab;
+
+    private List<AudioChannel> playingAudioChannels;
+
+    public int audioChannelCacheSize = 50;
+    private Stack<AudioChannel> audioChannelCache;
+
+    private int channelIdCounter = 0;
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            this.CreateAudioChannelCache();
+        }
+    }
+
+    private void CreateAudioChannelCache()
+    {
+        this.audioChannelCache = new Stack<AudioChannel>();
+        this.playingAudioChannels = new List<AudioChannel>();
+
+        for (int i = 0; i < this.audioChannelCacheSize; i++)
+        {
+            GameObject newAudioChannel = Instantiate(this.audioChannelPrefab, this.transform);
+            this.audioChannelCache.Push(newAudioChannel.GetComponent<AudioChannel>());
+            newAudioChannel.name = "Unused";
+        }
+    }
+
+    private AudioChannel GetAudioChannel(AudioClip clip, AudioChannelSettings channelSettings)
+    {
+        if (this.audioChannelCache.Count < 1)
+        {
+            Debug.LogError("No Audio Channels available. Audio Channel not assigned.");
+            return null;
+        }
+        
+        AudioChannel newChannel = this.audioChannelCache.Pop();        
+        newChannel.Setup(clip, channelSettings);        
+        return newChannel;
+    }
+
+    public int Play(AudioClip clip, AudioChannelSettings channelSettings)
+    {
+        AudioChannel newAudioChannel = this.GetAudioChannel(clip, channelSettings);
+        newAudioChannel.Play();
+        this.playingAudioChannels.Add(newAudioChannel);
+        return newAudioChannel.channelId;
+    }
+
+    public int PlaySlideUp(AudioClip clip, AudioChannelSettings channelSettings, float durationInSeconds)
+    {
+        AudioChannel newAudioChannel = this.GetAudioChannel(clip, channelSettings);
+        newAudioChannel.PlaySlideUp(durationInSeconds);
+        this.playingAudioChannels.Add(newAudioChannel);
+        return newAudioChannel.channelId;
+    }
+
+    public int PlaySlideDown(AudioClip clip, AudioChannelSettings channelSettings, float durationInSeconds)
+    {
+        AudioChannel newAudioChannel = this.GetAudioChannel(clip, channelSettings);
+        newAudioChannel.PlaySlideDown(durationInSeconds);
+        this.playingAudioChannels.Add(newAudioChannel);
+        return newAudioChannel.channelId;
+    }
+
+    public int PlayPingPong(AudioClip clip, AudioChannelSettings channelSettings, float periodInSeconds)
+    {
+        AudioChannel newAudioChannel = this.GetAudioChannel(clip, channelSettings);
+        newAudioChannel.PlayPingPong(periodInSeconds);
+        this.playingAudioChannels.Add(newAudioChannel);
+        return newAudioChannel.channelId;
+    }
+
+    public int PlayPeriodically(AudioClip clip, AudioChannelSettings channelSettings, float periodInSeconds)
+    {
+        AudioChannel newAudioChannel = this.GetAudioChannel(clip, channelSettings);
+        newAudioChannel.PlayPeriodically(periodInSeconds);
+        this.playingAudioChannels.Add(newAudioChannel);
+        return newAudioChannel.channelId;
+    }
+
+    public void Stop(int channelId)
+    {
+        this.playingAudioChannels.Find(x => x.channelId == channelId).Stop();
+    }
+
+    public int GetNewChannelId()
+    {
+        this.channelIdCounter++;
+        return channelIdCounter;
+    }
+
+    public void ReleaseChannel(AudioChannel releasedChannel)
+    {
+        this.playingAudioChannels.Remove(releasedChannel);
+        this.audioChannelCache.Push(releasedChannel);
+
+        releasedChannel.transform.position = this.transform.position;
+    }
+}
