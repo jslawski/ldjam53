@@ -1,16 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
-public class PlayerController : MonoBehaviour
+public class DebugData : MonoBehaviour
 {
     public MouthSettings currentMouthSettings;
-
+    
     private MouseCommand currentMouseCommand;
     private KeyboardCommand currentKeyboardCommand;
     private VowelCommand currentVowelCommand;
 
     private Queue<KeyCode> keyCache;
+
+    private TextMeshProUGUI debugText;
 
     private void Awake()
     {
@@ -20,37 +24,49 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        this.debugText = GetComponentInChildren<TextMeshProUGUI>();
         this.keyCache = new Queue<KeyCode>();
         this.currentMouthSettings = new MouthSettings();
     }
-
+    
     // Update is called once per frame
     void Update()
     {
+        this.debugText.text = "";
         this.HandleInput();
     }
 
     private void HandleInput()
     {
+        if (Input.GetKeyUp(KeyCode.Tab))
+        {
+            this.debugText.enabled = !this.debugText.enabled;
+        }
+
         this.currentMouseCommand = this.HandleMouseInput();
         this.currentMouthSettings = this.currentMouseCommand.Execute();
 
         this.currentVowelCommand = this.HandleScrollWheelInput();
         this.currentMouthSettings = this.currentVowelCommand.Execute();
 
-        this.currentKeyboardCommand = this.HandleKeyboardInput();               
+        this.currentKeyboardCommand = this.HandleKeyboardInput();
         this.currentMouthSettings = this.currentKeyboardCommand.Execute();
     }
 
     private MouseCommand HandleMouseInput()
     {
         Vector3 viewportMousePosition = Camera.main.ScreenToViewportPoint(Input.mousePosition);
-        return new MouseCommand(this.currentMouthSettings, viewportMousePosition.x, viewportMousePosition.y);        
+
+        this.debugText.text += "Mouse Pos: (" + viewportMousePosition.x + ", " + viewportMousePosition.y + ")\n";
+
+        return new MouseCommand(this.currentMouthSettings, viewportMousePosition.x, viewportMousePosition.y);
     }
 
     private VowelCommand HandleScrollWheelInput()
     {
-        return new VowelCommand(this.currentMouthSettings, Input.mouseScrollDelta.y);        
+        this.debugText.text += "Vowel: " + this.currentMouthSettings.vowelKey + "\n";
+
+        return new VowelCommand(this.currentMouthSettings, Input.mouseScrollDelta.y);
     }
 
     private KeyboardCommand HandleKeyboardInput()
@@ -60,22 +76,29 @@ public class PlayerController : MonoBehaviour
 
         this.UpdateKeyCache();
 
-        if (this.keyCache.Contains(KeyCode.A))
+        if (Input.GetKey(KeyCode.A))
         {
             consonantKey += "A";
         }
-        if (this.keyCache.Contains(KeyCode.W))
+        if (Input.GetKey(KeyCode.W))
         {
             consonantKey += "W";
         }
-        if (this.keyCache.Contains(KeyCode.S))
+        if (Input.GetKey(KeyCode.S))
         {
             consonantKey += "S";
         }
-        if (this.keyCache.Contains(KeyCode.D))
+        if (Input.GetKey(KeyCode.D))
         {
             consonantKey += "D";
         }
+
+        if (consonantKey.Length > 2)
+        {
+            consonantKey = this.ReplaceKeyWithCache();
+        }
+
+        this.debugText.text += "Consonant Key: " + consonantKey + "\nSpace: " + spacePressed.ToString();
 
         return new KeyboardCommand(this.currentMouthSettings, consonantKey, spacePressed);
     }
@@ -103,5 +126,29 @@ public class PlayerController : MonoBehaviour
         {
             this.keyCache.Dequeue();
         }
+    }
+
+    private string ReplaceKeyWithCache()
+    {
+        string newKey = "";
+
+        if (this.keyCache.Contains(KeyCode.A))
+        {
+            newKey += "A";
+        }
+        if (this.keyCache.Contains(KeyCode.W))
+        {
+            newKey += "W";
+        }
+        if (this.keyCache.Contains(KeyCode.S))
+        {
+            newKey += "S";
+        }
+        if (this.keyCache.Contains(KeyCode.D))
+        {
+            newKey += "D";
+        }
+
+        return newKey;
     }
 }

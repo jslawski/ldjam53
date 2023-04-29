@@ -18,12 +18,26 @@ public class VowelCommand : Command
         int currentIndex = MouthSounds.vowelList.FindIndex(x => x == this.mouthSettings.vowelKey);
 
         if (this.scrollDelta > 0)
-        {            
-            this.mouthSettings.vowelKey = MouthSounds.vowelList[currentIndex - 1];
+        {
+            int newIndex = currentIndex - 1;
+
+            if (newIndex < 0)
+            {
+                newIndex = MouthSounds.vowelList.Count - 1;
+            }
+
+            this.mouthSettings.vowelKey = MouthSounds.vowelList[newIndex];
         }
         else if (this.scrollDelta < 0)
         {
-            this.mouthSettings.vowelKey = MouthSounds.vowelList[currentIndex + 1];
+            int newIndex = currentIndex + 1;
+
+            if (newIndex > (MouthSounds.vowelList.Count - 1))
+            {
+                newIndex = 0;
+            }
+
+            this.mouthSettings.vowelKey = MouthSounds.vowelList[newIndex];
         }
 
         return this.mouthSettings;
