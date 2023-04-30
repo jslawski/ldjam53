@@ -35,6 +35,8 @@ public class AudioChannel : MonoBehaviour
 
     public int channelId;
 
+    public bool crossFading = false;
+
     public void Setup(AudioClip clip, AudioChannelSettings settings)
     {
         this.source = GetComponent<AudioSource>();
@@ -84,7 +86,11 @@ public class AudioChannel : MonoBehaviour
             }
 
             this.source.pitch = Random.Range(this.channelSettings.minPitch, this.channelSettings.maxPitch);
-            this.source.volume = this.channelSettings.volume;
+
+            if (this.crossFading == false)
+            {
+                this.source.volume = this.channelSettings.volume;
+            }
         }
 
         this.Stop();
@@ -191,6 +197,43 @@ public class AudioChannel : MonoBehaviour
 
             this.source.Play();
         }        
+    }
+
+    public void FadeOut(float duration)
+    {
+        StartCoroutine(this.FadeCoroutine(this.channelSettings.volume, 0.0f, duration));
+    }
+
+    public void FadeIn(float duration)
+    {
+        StartCoroutine(this.FadeCoroutine(0.0f, this.channelSettings.volume, duration));
+    }
+
+    private IEnumerator FadeCoroutine(float startVolume, float endVolume, float duration)
+    {
+        this.crossFading = true;
+
+        float volumeIncrement = ((endVolume - startVolume) / duration) * Time.fixedDeltaTime;
+
+        this.source.volume = startVolume;
+
+        //Debug.LogError("Volume Increment: " + volumeIncrement + " Duration: " + duration);        
+
+        for (float i = 0; i < duration; i += Time.fixedDeltaTime)
+        {
+
+            this.source.volume += volumeIncrement;
+
+            /*
+            if (startVolume < endVolume)
+            {
+                Debug.LogError("After Volume: " + this.channelId.ToString() + " " + this.source.volume);
+            }
+            */
+            yield return new WaitForFixedUpdate();
+        }
+
+        this.crossFading = false;
     }
 
     public void Stop()

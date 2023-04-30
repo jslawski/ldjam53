@@ -10,10 +10,10 @@ public class MouseCommand : Command
     private float playSpacePositionY = 0f;
 
     private float minVolume = 0.5f;
-    private float maxVolume = 1.5f;
+    private float maxVolume = 3.0f;
 
-    private float minPitch = 0.5f;
-    private float maxPitch = 1.5f;
+    private float minPitch = 0.9f;
+    private float maxPitch = 1.1f;
 
     //Constructor to assign player game object
     public MouseCommand(MouthSettings settings, float xPos, float yPos)

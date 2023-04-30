@@ -111,6 +111,23 @@ public class AudioManager : MonoBehaviour
         releasedChannel.transform.position = this.transform.position;
     }
 
+    public int Crossfade(int fromChannelId, AudioClip clip, AudioChannelSettings channelSettings, float fadeDuration)
+    {
+        if (fromChannelId > 0 && this.playingAudioChannels.Exists(x => x.channelId == fromChannelId))
+        {
+            AudioChannel fromChannel = this.playingAudioChannels.Find(x => x.channelId == fromChannelId);            
+            fromChannel.FadeOut(fadeDuration);            
+        }
+
+        AudioChannel toChannel = this.GetAudioChannel(clip, channelSettings);
+        toChannel.FadeIn(fadeDuration);
+        toChannel.Play();
+
+        this.playingAudioChannels.Add(toChannel);
+
+        return toChannel.channelId;
+    }
+
     public void SetPitch(int channelId, float newPitch)
     {
         AudioChannel targetChannel = this.playingAudioChannels.Find(x => x.channelId == channelId);
@@ -121,9 +138,17 @@ public class AudioManager : MonoBehaviour
 
     public void SetVolume(int channelId, float newVolume)
     {
-        AudioChannel targetChannel = this.playingAudioChannels.Find(x => x.channelId == channelId);
+        if (channelId > 0 && this.playingAudioChannels.Exists(x => x.channelId == channelId))
+        {            
+            AudioChannel targetChannel = this.playingAudioChannels.Find(x => x.channelId == channelId);
 
-        targetChannel.channelSettings.volume = newVolume;        
+            if (targetChannel.crossFading == true)
+            {
+                return;
+            }
+
+            targetChannel.channelSettings.volume = newVolume;
+        }        
     }
 
     public bool IsPlaying(int channelId)

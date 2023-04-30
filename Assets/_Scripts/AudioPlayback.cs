@@ -77,32 +77,54 @@ public class AudioPlayback : MonoBehaviour
         this.consonantChannelId = AudioManager.instance.Play(consonantClip, audioSettings);
 
         //Start coroutine to play Vowel
-        StartCoroutine(this.PlayVowelAfterConsonent());
+        StartCoroutine(this.PlayVowelAfterConsonent(consonantClip));
+
+        
     }
 
-    private IEnumerator PlayVowelAfterConsonent()
-    {
+    
+    private IEnumerator PlayVowelAfterConsonent(AudioClip consonantClip)
+    {        
+        float currentDuration = 0.0f;
+
+        float increments = 5.0f;
+        float crossDuration = consonantClip.length / increments;
+
+        Debug.LogError(crossDuration.ToString() + " Seconds. " + (crossDuration/Time.fixedDeltaTime) + " Frames.");
+
         while (AudioManager.instance.IsPlaying(this.consonantChannelId))
         {
+            if (currentDuration >= (crossDuration * (increments - 1)))
+            {
+                this.PlayVowel(true, crossDuration);
+                break;
+            }
+
+            currentDuration += Time.deltaTime;
+
             yield return null;
         }
-
+       
         if (this.currentSettings.pushingAir == true)
         {
             this.PlayVowel();
-        }
+        }        
     }
-
+   
     //Vowels should only be played when:
     //The space bar has changed from pressed to unpressed
     //OR
     //The spacebar is currently pressed, and the previous vowel is different from the current vowel
-    private void PlayVowel()
+    private void PlayVowel(bool crossfade = false, float crossfadeDuration = 0.0f)
     {
         if (this.vowelChannelId != -1)
         {
             AudioManager.instance.SetPitch(this.vowelChannelId, this.currentSettings.pitch);
-            AudioManager.instance.SetVolume(this.vowelChannelId, this.currentSettings.volume);
+
+            if (crossfade == false)
+            {
+                AudioManager.instance.SetVolume(this.vowelChannelId, this.currentSettings.volume);
+            }
 
             if (AudioManager.instance.IsPlaying(this.vowelChannelId))
             {
@@ -120,7 +142,14 @@ public class AudioPlayback : MonoBehaviour
         AudioChannelSettings audioSettings = new AudioChannelSettings(true, this.currentSettings.pitch, this.currentSettings.pitch, this.currentSettings.volume, "Voice");
         AudioClip vowelClip = MouthSounds.vowelDict[this.currentSettings.vowelKey];
 
-        this.vowelChannelId = AudioManager.instance.Play(vowelClip, audioSettings);
+        if (crossfade == true)
+        {
+            this.vowelChannelId = AudioManager.instance.Crossfade(this.consonantChannelId, vowelClip, audioSettings, crossfadeDuration);
+        }
+        else
+        {
+            this.vowelChannelId = AudioManager.instance.Play(vowelClip, audioSettings);
+        }
     }
 
     private void StopVowelAudio()
