@@ -13,6 +13,12 @@ public class VowelCommand : Command
         this.scrollDelta = delta;
     }
 
+    public VowelCommand(VowelCommand commandToCopy)
+    {
+        this.mouthSettings = commandToCopy.mouthSettings;
+        this.scrollDelta = commandToCopy.scrollDelta;
+    }
+
     public override MouthSettings Execute()
     {
         int currentIndex = MouthSounds.vowelList.FindIndex(x => x == this.mouthSettings.vowelKey);

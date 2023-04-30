@@ -14,6 +14,13 @@ public class KeyboardCommand : Command
         this.spacePressed = spacePressed;
     }
 
+    public KeyboardCommand(KeyboardCommand commandToCopy)
+    {
+        this.mouthSettings = commandToCopy.mouthSettings;
+        this.consonantKey = commandToCopy.consonantKey;
+        this.spacePressed = commandToCopy.spacePressed;
+    }
+
     public override MouthSettings Execute()
     {
         if (this.spacePressed == true)

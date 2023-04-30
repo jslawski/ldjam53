@@ -54,7 +54,6 @@ public class AudioManager : MonoBehaviour
 
     public int Play(AudioClip clip, AudioChannelSettings channelSettings)
     {
-        Debug.LogError("Playing Clip: " + clip.name);
         AudioChannel newAudioChannel = this.GetAudioChannel(clip, channelSettings);
         newAudioChannel.Play();
         this.playingAudioChannels.Add(newAudioChannel);
@@ -125,5 +124,10 @@ public class AudioManager : MonoBehaviour
         AudioChannel targetChannel = this.playingAudioChannels.Find(x => x.channelId == channelId);
 
         targetChannel.channelSettings.volume = newVolume;        
+    }
+
+    public bool IsPlaying(int channelId)
+    {
+        return (channelId > 0 && this.playingAudioChannels.Exists(x => x.channelId == channelId));        
     }
 }

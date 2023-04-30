@@ -8,6 +8,9 @@ public class AudioPlayback : MonoBehaviour
     private MouthSettings currentSettings;
 
     private int vowelChannelId = -1;
+    private int consonantChannelId = -1;
+
+    public bool isPlayingBack = false;
 
     public static AudioPlayback instance;
 
@@ -21,9 +24,8 @@ public class AudioPlayback : MonoBehaviour
         this.previousSettings = new MouthSettings();
         this.currentSettings = new MouthSettings();
 
-        this.currentSettings.consonantKey = "EW";
-
         this.vowelChannelId = -1;
+        this.consonantChannelId = -1;
     }
 
     public void PlayAudio(MouthSettings latestSettings)
@@ -43,10 +45,13 @@ public class AudioPlayback : MonoBehaviour
             {
                 this.PlayConsonant();
             }
-
-            this.PlayVowel();
+            
+            if (AudioManager.instance.IsPlaying(this.consonantChannelId) == false)
+            {
+                this.PlayVowel();
+            }            
         }        
-    }
+    }    
 
     //Consonants should only be played when:
     //The space bar has changed from unpressed to pressed
@@ -62,9 +67,30 @@ public class AudioPlayback : MonoBehaviour
             }            
         }
 
+        if (this.vowelChannelId != -1)
+        {
+            this.StopVowelAudio();
+        }
+
         AudioChannelSettings audioSettings = new AudioChannelSettings(false, this.currentSettings.pitch, this.currentSettings.pitch, this.currentSettings.volume, "Voice");
         AudioClip consonantClip = MouthSounds.consonantDict[this.currentSettings.consonantKey];
-        AudioManager.instance.Play(consonantClip, audioSettings);       
+        this.consonantChannelId = AudioManager.instance.Play(consonantClip, audioSettings);
+
+        //Start coroutine to play Vowel
+        StartCoroutine(this.PlayVowelAfterConsonent());
+    }
+
+    private IEnumerator PlayVowelAfterConsonent()
+    {
+        while (AudioManager.instance.IsPlaying(this.consonantChannelId))
+        {
+            yield return null;
+        }
+
+        if (this.currentSettings.pushingAir == true)
+        {
+            this.PlayVowel();
+        }
     }
 
     //Vowels should only be played when:
@@ -77,18 +103,20 @@ public class AudioPlayback : MonoBehaviour
         {
             AudioManager.instance.SetPitch(this.vowelChannelId, this.currentSettings.pitch);
             AudioManager.instance.SetVolume(this.vowelChannelId, this.currentSettings.volume);
-        }
 
-        if (this.previousSettings.pushingAir == true && this.previousSettings.vowelKey == this.currentSettings.vowelKey)
-        {            
-            return;
-        }
-
-        if (this.vowelChannelId != -1)
-        {
-            AudioManager.instance.Stop(this.vowelChannelId);
-        }
-
+            if (AudioManager.instance.IsPlaying(this.vowelChannelId))
+            {
+                if (this.previousSettings.vowelKey == this.currentSettings.vowelKey)
+                {
+                    return;
+                }
+                else
+                {
+                    AudioManager.instance.Stop(this.vowelChannelId);
+                }
+            }
+        }        
+        
         AudioChannelSettings audioSettings = new AudioChannelSettings(true, this.currentSettings.pitch, this.currentSettings.pitch, this.currentSettings.volume, "Voice");
         AudioClip vowelClip = MouthSounds.vowelDict[this.currentSettings.vowelKey];
 
@@ -99,5 +127,24 @@ public class AudioPlayback : MonoBehaviour
     {
         AudioManager.instance.Stop(this.vowelChannelId);
         this.vowelChannelId = -1;
+    }
+
+    public void PlaybackRecordedWord(RecordedWord playbackWord)
+    {
+        StartCoroutine(this.PlaybackCoroutine(playbackWord));
+    }
+
+    private IEnumerator PlaybackCoroutine(RecordedWord playbackWord)
+    {
+        this.isPlayingBack = true;
+
+        for (int i = 0; i < playbackWord.recordedSettings.Count; i++)
+        {
+            this.PlayAudio(playbackWord.recordedSettings[i]);
+
+            yield return null;
+        }
+
+        this.isPlayingBack = false;
     }
 }

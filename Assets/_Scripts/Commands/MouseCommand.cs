@@ -23,6 +23,13 @@ public class MouseCommand : Command
         this.playSpacePositionY = yPos;
     }
 
+    public MouseCommand(MouseCommand commandToCopy)
+    {
+        this.mouthSettings = commandToCopy.mouthSettings;
+        this.playSpacePositionX = commandToCopy.playSpacePositionX;
+        this.playSpacePositionY = commandToCopy.playSpacePositionY;
+    }
+
     public override MouthSettings Execute()
     {
         //Call function to update voice volume
