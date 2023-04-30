@@ -17,13 +17,13 @@ public class PlayerController : MonoBehaviour
     private TextMeshProUGUI debugText;
 
     [SerializeField, Range(0.0f, 1.0f)]
-    private float playspaceClampTop = 0.8f;
+    private static float playspaceClampTop = 0.8f;
     [SerializeField, Range(0.0f, 1.0f)]
-    private float playspaceClampBottom = 0.2f;
+    private static float playspaceClampBottom = 0.2f;
     [SerializeField, Range(0.0f, 1.0f)]
-    private float playspaceClampLeft = 0.2f;
+    private static float playspaceClampLeft = 0.3f;
     [SerializeField, Range(0.0f, 1.0f)]
-    private float playspaceClampRight = 0.8f;
+    private static float playspaceClampRight = 0.7f;
 
     private RecordedWord testWord;
 
@@ -85,7 +85,7 @@ public class PlayerController : MonoBehaviour
 
     private MouseCommand HandleMouseInput()
     {
-        Vector3 playspaceMousePosition = this.ViewportToPlayspacePosition(Camera.main.ScreenToViewportPoint(Input.mousePosition));
+        Vector3 playspaceMousePosition = ViewportToPlayspaceMousePosition();
 
         return new MouseCommand(new MouthSettings(this.currentMouthSettings), playspaceMousePosition.x, playspaceMousePosition.y);
     }
@@ -176,10 +176,12 @@ public class PlayerController : MonoBehaviour
         return newKey;
     }
 
-    private Vector3 ViewportToPlayspacePosition(Vector3 viewportPos)
+    public static Vector3 ViewportToPlayspaceMousePosition()
     {
-        float playspacePositionX = (viewportPos.x - this.playspaceClampLeft) / (this.playspaceClampRight - this.playspaceClampLeft);
-        float playspacePositionY = (viewportPos.y - this.playspaceClampBottom) / (this.playspaceClampTop - this.playspaceClampBottom);
+        Vector3 viewportPos = Camera.main.ScreenToViewportPoint(Input.mousePosition);
+
+        float playspacePositionX = (viewportPos.x - playspaceClampLeft) / (playspaceClampRight - playspaceClampLeft);
+        float playspacePositionY = (viewportPos.y - playspaceClampBottom) / (playspaceClampTop - playspaceClampBottom);
 
         if (playspacePositionX < 0)
         {

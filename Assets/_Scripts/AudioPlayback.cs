@@ -134,7 +134,7 @@ public class AudioPlayback : MonoBehaviour
                 }
                 else
                 {
-                    this.vowelChannelId = AudioManager.instance.Crossfade(this.vowelChannelId, vowelClip, audioSettings, 0.15f);
+                    this.vowelChannelId = AudioManager.instance.Crossfade(this.vowelChannelId, vowelClip, audioSettings, 0.2f);
                     return;
                 }
             }

@@ -11,7 +11,7 @@ public class AudioChannelSettings
     public float volume = 1f;
     public string mixerName = "";
 
-    public Transform sourceTransform;
+    public Transform sourceTransform;    
 
     public AudioChannelSettings(bool loop = false, float minPitch = 1.0f, float maxPitch = 1.0f, float volume = 1.0f, string mixerName = "", Transform sourceTransform = null)
     {
@@ -36,6 +36,8 @@ public class AudioChannel : MonoBehaviour
     public int channelId;
 
     public bool crossFading = false;
+
+    private Coroutine fadeCoroutineInstance;
 
     public void Setup(AudioClip clip, AudioChannelSettings settings)
     {
@@ -201,12 +203,24 @@ public class AudioChannel : MonoBehaviour
 
     public void FadeOut(float duration)
     {
-        StartCoroutine(this.FadeCoroutine(this.channelSettings.volume, 0.0f, duration));
+        if (this.fadeCoroutineInstance != null)
+        {
+            StopCoroutine(this.fadeCoroutineInstance);
+            this.crossFading = false;
+        }
+
+        this.fadeCoroutineInstance = StartCoroutine(this.FadeCoroutine(this.channelSettings.volume, 0.0f, duration));
     }
 
     public void FadeIn(float duration)
     {
-        StartCoroutine(this.FadeCoroutine(0.0f, this.channelSettings.volume, duration));
+        if (this.fadeCoroutineInstance != null)
+        {
+            StopCoroutine(this.fadeCoroutineInstance);
+            this.crossFading = false;
+        }
+
+        this.fadeCoroutineInstance = StartCoroutine(this.FadeCoroutine(0.0f, this.channelSettings.volume, duration));
     }
 
     private IEnumerator FadeCoroutine(float startVolume, float endVolume, float duration)
@@ -220,18 +234,18 @@ public class AudioChannel : MonoBehaviour
         for (float i = 0; i < duration; i += Time.fixedDeltaTime)
         {
             this.source.volume += volumeIncrement;
+            this.channelSettings.volume = this.source.volume;
 
             yield return new WaitForFixedUpdate();
         }
 
+        this.fadeCoroutineInstance = null;
         this.crossFading = false;
-
-        Debug.LogError("Final Volume:" + this.source.volume);
 
         if (this.source.volume <= 0.0f)
         {
             this.Stop();
-        }
+        }        
     }
 
     public void Stop()
