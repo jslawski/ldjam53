@@ -142,6 +142,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -3887185075125053422, guid: 1ffc4c8e26fce344e97f991ec481e4ed, type: 3}
+      propertyPath: m_CastShadows
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -3887185075125053422, guid: 1ffc4c8e26fce344e97f991ec481e4ed, type: 3}
       propertyPath: m_AABB.m_Center.y
       value: -0.000000074505806
       objectReference: {fileID: 0}
