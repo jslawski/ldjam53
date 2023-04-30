@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        MouthSounds.Setup("Andrew");
+        MouthSounds.Setup("Jared");
     }
 
     // Start is called before the first frame update

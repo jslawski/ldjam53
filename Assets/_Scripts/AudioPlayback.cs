@@ -72,7 +72,7 @@ public class AudioPlayback : MonoBehaviour
             this.StopVowelAudio();
         }
 
-        AudioChannelSettings audioSettings = new AudioChannelSettings(false, this.currentSettings.pitch, this.currentSettings.pitch, this.currentSettings.volume, "Voice");
+        AudioChannelSettings audioSettings = new AudioChannelSettings(false, this.currentSettings.pitch, this.currentSettings.pitch, this.currentSettings.volume + (0.5f * this.currentSettings.volume), "Voice");
         AudioClip consonantClip = MouthSounds.consonantDict[this.currentSettings.consonantKey];
         this.consonantChannelId = AudioManager.instance.Play(consonantClip, audioSettings);
 
@@ -81,25 +81,16 @@ public class AudioPlayback : MonoBehaviour
     }
 
     private IEnumerator PlayVowelAfterConsonent(AudioClip consonantClip)
-    {        
-        float currentDuration = 0.0f;
+    {
+        float currentDuration = 0;
 
-        float increments = 5.0f;
-        float crossDuration = consonantClip.length / increments;
+        float numIncrements = 4.0f;
+        float increment = consonantClip.length / numIncrements;
 
-        //Debug.LogError(crossDuration.ToString() + " Seconds. " + (crossDuration/Time.fixedDeltaTime) + " Frames.");
-
-        while (AudioManager.instance.IsPlaying(this.consonantChannelId))
-        {
-            if (currentDuration >= (crossDuration * (increments - 1)))
-            {
-                this.PlayVowel(true, crossDuration);
-                break;
-            }
-
-            currentDuration += Time.deltaTime;
-
-            yield return null;
+        while (currentDuration < increment * (numIncrements - 1))
+        {            
+            yield return new WaitForFixedUpdate();
+            currentDuration += Time.fixedDeltaTime;
         }
        
         if (this.currentSettings.pushingAir == true)
@@ -115,7 +106,10 @@ public class AudioPlayback : MonoBehaviour
     private void PlayVowel(bool crossfade = false, float crossfadeDuration = 0.0f)
     {
         AudioChannelSettings audioSettings = new AudioChannelSettings(true, this.currentSettings.pitch, this.currentSettings.pitch, this.currentSettings.volume, "Voice");
-        AudioClip vowelClip = MouthSounds.vowelDict[this.currentSettings.vowelKey];
+
+        this.SetTonedVowelKey();
+
+        AudioClip vowelClip = MouthSounds.vowelDict[this.currentSettings.tonedVowelKey];
 
         if (this.vowelChannelId != -1)
         {
@@ -128,7 +122,7 @@ public class AudioPlayback : MonoBehaviour
 
             if (AudioManager.instance.IsPlaying(this.vowelChannelId))
             {
-                if (this.previousSettings.vowelKey == this.currentSettings.vowelKey)
+                if (this.previousSettings.tonedVowelKey == this.currentSettings.tonedVowelKey)
                 {
                     return;
                 }
@@ -148,6 +142,26 @@ public class AudioPlayback : MonoBehaviour
         {
             this.vowelChannelId = AudioManager.instance.Play(vowelClip, audioSettings);
         }
+    }
+
+    private void SetTonedVowelKey()
+    {
+        string tonedVowel = this.currentSettings.vowelKey;
+
+        if (this.currentSettings.volume <= 0.3f)
+        {
+            tonedVowel += "_1";
+        }
+        else if (this.currentSettings.volume <= 0.9f)
+        {
+            tonedVowel += "_2";
+        }
+        else
+        {
+            tonedVowel += "_3";
+        }
+
+        this.currentSettings.tonedVowelKey = tonedVowel;
     }
 
     private void StopVowelAudio()

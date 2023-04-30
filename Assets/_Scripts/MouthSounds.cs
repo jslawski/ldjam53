@@ -32,7 +32,9 @@ public static class MouthSounds
         consonantDict.Add("D", Resources.Load<AudioClip>("MouthSounds/" + characterKey + "/Consonants/T_TH_D"));
 
         //Vowels
-        vowelDict.Add("A", Resources.Load<AudioClip>("MouthSounds/" + characterKey + "/Vowels/A"));
+        vowelDict.Add("A_1", Resources.Load<AudioClip>("MouthSounds/" + characterKey + "/Vowels/A_1"));
+        vowelDict.Add("A_2", Resources.Load<AudioClip>("MouthSounds/" + characterKey + "/Vowels/A_2"));
+        vowelDict.Add("A_3", Resources.Load<AudioClip>("MouthSounds/" + characterKey + "/Vowels/A_3"));
         vowelDict.Add("AA", Resources.Load<AudioClip>("MouthSounds/" + characterKey + "/Vowels/AA"));
         vowelDict.Add("E", Resources.Load<AudioClip>("MouthSounds/" + characterKey + "/Vowels/E"));
         vowelDict.Add("EE", Resources.Load<AudioClip>("MouthSounds/" + characterKey + "/Vowels/EE"));

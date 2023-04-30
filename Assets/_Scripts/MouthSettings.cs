@@ -9,14 +9,16 @@ public class MouthSettings
     public float pitch = 1;
     public string consonantKey = "";
     public string vowelKey = "A";
+    public string tonedVowelKey = "";
 
-    public MouthSettings(bool pushingAir = false, float volume = 1, float pitch = 1, string consonantKey = "", string vowelKey = "A")
+    public MouthSettings(bool pushingAir = false, float volume = 1, float pitch = 1, string consonantKey = "", string vowelKey = "A", string tonedVowelKey = "")
     {
         this.pushingAir = pushingAir;
         this.volume = volume;
         this.pitch = pitch;
         this.consonantKey = consonantKey;
         this.vowelKey = vowelKey;
+        this.tonedVowelKey = tonedVowelKey;
     }
 
     public MouthSettings(MouthSettings settingsToCopy)

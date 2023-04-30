@@ -31,7 +31,7 @@ public class VowelCommand : Command
             {
                 newIndex = MouthSounds.vowelList.Count - 1;
             }
-
+            
             this.mouthSettings.vowelKey = MouthSounds.vowelList[newIndex];
         }
         else if (this.scrollDelta < 0)
@@ -42,10 +42,10 @@ public class VowelCommand : Command
             {
                 newIndex = 0;
             }
-
+            
             this.mouthSettings.vowelKey = MouthSounds.vowelList[newIndex];
         }
 
         return this.mouthSettings;
-    }
+    } 
 }
