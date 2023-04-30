@@ -78,11 +78,8 @@ public class AudioPlayback : MonoBehaviour
 
         //Start coroutine to play Vowel
         StartCoroutine(this.PlayVowelAfterConsonent(consonantClip));
-
-        
     }
 
-    
     private IEnumerator PlayVowelAfterConsonent(AudioClip consonantClip)
     {        
         float currentDuration = 0.0f;
@@ -90,7 +87,7 @@ public class AudioPlayback : MonoBehaviour
         float increments = 5.0f;
         float crossDuration = consonantClip.length / increments;
 
-        Debug.LogError(crossDuration.ToString() + " Seconds. " + (crossDuration/Time.fixedDeltaTime) + " Frames.");
+        //Debug.LogError(crossDuration.ToString() + " Seconds. " + (crossDuration/Time.fixedDeltaTime) + " Frames.");
 
         while (AudioManager.instance.IsPlaying(this.consonantChannelId))
         {
@@ -117,6 +114,9 @@ public class AudioPlayback : MonoBehaviour
     //The spacebar is currently pressed, and the previous vowel is different from the current vowel
     private void PlayVowel(bool crossfade = false, float crossfadeDuration = 0.0f)
     {
+        AudioChannelSettings audioSettings = new AudioChannelSettings(true, this.currentSettings.pitch, this.currentSettings.pitch, this.currentSettings.volume, "Voice");
+        AudioClip vowelClip = MouthSounds.vowelDict[this.currentSettings.vowelKey];
+
         if (this.vowelChannelId != -1)
         {
             AudioManager.instance.SetPitch(this.vowelChannelId, this.currentSettings.pitch);
@@ -134,13 +134,11 @@ public class AudioPlayback : MonoBehaviour
                 }
                 else
                 {
-                    AudioManager.instance.Stop(this.vowelChannelId);
+                    this.vowelChannelId = AudioManager.instance.Crossfade(this.vowelChannelId, vowelClip, audioSettings, 0.15f);
+                    return;
                 }
             }
         }        
-        
-        AudioChannelSettings audioSettings = new AudioChannelSettings(true, this.currentSettings.pitch, this.currentSettings.pitch, this.currentSettings.volume, "Voice");
-        AudioClip vowelClip = MouthSounds.vowelDict[this.currentSettings.vowelKey];
 
         if (crossfade == true)
         {

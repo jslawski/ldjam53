@@ -217,23 +217,21 @@ public class AudioChannel : MonoBehaviour
 
         this.source.volume = startVolume;
 
-        //Debug.LogError("Volume Increment: " + volumeIncrement + " Duration: " + duration);        
-
         for (float i = 0; i < duration; i += Time.fixedDeltaTime)
         {
-
             this.source.volume += volumeIncrement;
 
-            /*
-            if (startVolume < endVolume)
-            {
-                Debug.LogError("After Volume: " + this.channelId.ToString() + " " + this.source.volume);
-            }
-            */
             yield return new WaitForFixedUpdate();
         }
 
         this.crossFading = false;
+
+        Debug.LogError("Final Volume:" + this.source.volume);
+
+        if (this.source.volume <= 0.0f)
+        {
+            this.Stop();
+        }
     }
 
     public void Stop()

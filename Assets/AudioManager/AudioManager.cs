@@ -105,6 +105,11 @@ public class AudioManager : MonoBehaviour
 
     public void ReleaseChannel(AudioChannel releasedChannel)
     {
+        if (this.playingAudioChannels.Exists(x => x == releasedChannel) == false)
+        {
+            return;
+        }
+
         this.playingAudioChannels.Remove(releasedChannel);
         this.audioChannelCache.Push(releasedChannel);
 
