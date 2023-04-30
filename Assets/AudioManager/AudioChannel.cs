@@ -29,7 +29,7 @@ public class AudioChannel : MonoBehaviour
     [SerializeField]
     private AudioMixer mixer;
 
-    private AudioChannelSettings channelSettings;
+    public AudioChannelSettings channelSettings;
 
     private AudioSource source;
 
@@ -82,6 +82,9 @@ public class AudioChannel : MonoBehaviour
             {
                 this.transform.position = this.channelSettings.sourceTransform.position;
             }
+
+            this.source.pitch = Random.Range(this.channelSettings.minPitch, this.channelSettings.maxPitch);
+            this.source.volume = this.channelSettings.volume;
         }
 
         this.Stop();

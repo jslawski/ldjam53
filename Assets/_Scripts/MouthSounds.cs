@@ -20,28 +20,28 @@ public static class MouthSounds
         vowelDict = new Dictionary<string, AudioClip>();
 
         //Consonants
-        consonantDict.Add("A", Resources.Load<AudioClip>(characterKey + "/Consonants/C_K_G.wav"));
-        consonantDict.Add("AW", Resources.Load<AudioClip>(characterKey + "/Consonants/CH_J_SH_ZE.wav"));
-        consonantDict.Add("AS", Resources.Load<AudioClip>(characterKey + "/Consonants/F_V.wav"));
-        consonantDict.Add("W", Resources.Load<AudioClip>(characterKey + "/Consonants/H.wav"));
-        consonantDict.Add("WS", Resources.Load<AudioClip>(characterKey + "/Consonants/L.wav"));
-        consonantDict.Add("SD", Resources.Load<AudioClip>(characterKey + "/Consonants/M_N.wav"));
-        consonantDict.Add("S", Resources.Load<AudioClip>(characterKey + "/Consonants/P_B.wav"));
-        consonantDict.Add("WD", Resources.Load<AudioClip>(characterKey + "/Consonants/R.wav"));
-        consonantDict.Add("AD", Resources.Load<AudioClip>(characterKey + "/Consonants/S_Z.wav"));
-        consonantDict.Add("D", Resources.Load<AudioClip>(characterKey + "/Consonants/T_TH_D.wav"));
+        consonantDict.Add("A", Resources.Load<AudioClip>("MouthSounds/" + characterKey + "/Consonants/C_K_G"));
+        consonantDict.Add("AW", Resources.Load<AudioClip>("MouthSounds/" + characterKey + "/Consonants/CH_J_SH_ZE"));
+        consonantDict.Add("AS", Resources.Load<AudioClip>("MouthSounds/" + characterKey + "/Consonants/F_V"));
+        consonantDict.Add("W", Resources.Load<AudioClip>("MouthSounds/" + characterKey + "/Consonants/H"));
+        consonantDict.Add("WS", Resources.Load<AudioClip>("MouthSounds/" + characterKey + "/Consonants/L"));
+        consonantDict.Add("SD", Resources.Load<AudioClip>("MouthSounds/" + characterKey + "/Consonants/M_N"));
+        consonantDict.Add("S", Resources.Load<AudioClip>("MouthSounds/" + characterKey + "/Consonants/P_B"));
+        consonantDict.Add("WD", Resources.Load<AudioClip>("MouthSounds/" + characterKey + "/Consonants/R"));
+        consonantDict.Add("AD", Resources.Load<AudioClip>("MouthSounds/" + characterKey + "/Consonants/S_Z"));
+        consonantDict.Add("D", Resources.Load<AudioClip>("MouthSounds/" + characterKey + "/Consonants/T_TH_D"));
 
         //Vowels
-        vowelDict.Add("A", Resources.Load<AudioClip>(characterKey + "/Vowels/A.wav"));
-        vowelDict.Add("AA", Resources.Load<AudioClip>(characterKey + "/Vowels/AA.wav"));
-        vowelDict.Add("E", Resources.Load<AudioClip>(characterKey + "/Vowels/E.wav"));
-        vowelDict.Add("EE", Resources.Load<AudioClip>(characterKey + "/Vowels/EE.wav"));
-        vowelDict.Add("I", Resources.Load<AudioClip>(characterKey + "/Vowels/I.wav"));
-        vowelDict.Add("II", Resources.Load<AudioClip>(characterKey + "/Vowels/II.wav"));
-        vowelDict.Add("O", Resources.Load<AudioClip>(characterKey + "/Vowels/O.wav"));
-        vowelDict.Add("OO", Resources.Load<AudioClip>(characterKey + "/Vowels/OO.wav"));
-        vowelDict.Add("U", Resources.Load<AudioClip>(characterKey + "/Vowels/U.wav"));
-        vowelDict.Add("UU", Resources.Load<AudioClip>(characterKey + "/Vowels/UU.wav"));
+        vowelDict.Add("A", Resources.Load<AudioClip>("MouthSounds/" + characterKey + "/Vowels/A"));
+        vowelDict.Add("AA", Resources.Load<AudioClip>("MouthSounds/" + characterKey + "/Vowels/AA"));
+        vowelDict.Add("E", Resources.Load<AudioClip>("MouthSounds/" + characterKey + "/Vowels/E"));
+        vowelDict.Add("EE", Resources.Load<AudioClip>("MouthSounds/" + characterKey + "/Vowels/EE"));
+        vowelDict.Add("I", Resources.Load<AudioClip>("MouthSounds/" + characterKey + "/Vowels/I"));
+        vowelDict.Add("II", Resources.Load<AudioClip>("MouthSounds/" + characterKey + "/Vowels/II"));
+        vowelDict.Add("O", Resources.Load<AudioClip>("MouthSounds/" + characterKey + "/Vowels/O"));
+        vowelDict.Add("OO", Resources.Load<AudioClip>("MouthSounds/" + characterKey + "/Vowels/OO"));
+        vowelDict.Add("U", Resources.Load<AudioClip>("MouthSounds/" + characterKey + "/Vowels/U"));
+        vowelDict.Add("UU", Resources.Load<AudioClip>("MouthSounds/" + characterKey + "/Vowels/UU"));
     }
 
     public static void LoadVowelList()

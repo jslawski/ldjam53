@@ -54,6 +54,7 @@ public class AudioManager : MonoBehaviour
 
     public int Play(AudioClip clip, AudioChannelSettings channelSettings)
     {
+        Debug.LogError("Playing Clip: " + clip.name);
         AudioChannel newAudioChannel = this.GetAudioChannel(clip, channelSettings);
         newAudioChannel.Play();
         this.playingAudioChannels.Add(newAudioChannel);
@@ -109,5 +110,20 @@ public class AudioManager : MonoBehaviour
         this.audioChannelCache.Push(releasedChannel);
 
         releasedChannel.transform.position = this.transform.position;
+    }
+
+    public void SetPitch(int channelId, float newPitch)
+    {
+        AudioChannel targetChannel = this.playingAudioChannels.Find(x => x.channelId == channelId);
+
+        targetChannel.channelSettings.minPitch = newPitch;
+        targetChannel.channelSettings.maxPitch = newPitch;
+    }
+
+    public void SetVolume(int channelId, float newVolume)
+    {
+        AudioChannel targetChannel = this.playingAudioChannels.Find(x => x.channelId == channelId);
+
+        targetChannel.channelSettings.volume = newVolume;        
     }
 }

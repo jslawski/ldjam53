@@ -6,8 +6,14 @@ using UnityEngine;
 //Manipulate voice pitch based on vertical position
 public class MouseCommand : Command
 {
-    float playSpacePositionX = 0f;
-    float playSpacePositionY = 0f;
+    private float playSpacePositionX = 0f;
+    private float playSpacePositionY = 0f;
+
+    private float minVolume = 0.5f;
+    private float maxVolume = 1.5f;
+
+    private float minPitch = 0.5f;
+    private float maxPitch = 1.5f;
 
     //Constructor to assign player game object
     public MouseCommand(MouthSettings settings, float xPos, float yPos)
@@ -20,9 +26,10 @@ public class MouseCommand : Command
     public override MouthSettings Execute()
     {
         //Call function to update voice volume
-        this.mouthSettings.volume = this.playSpacePositionX;
+        this.mouthSettings.volume = Mathf.Lerp(this.minVolume, this.maxVolume, Mathf.Abs(0.5f - this.playSpacePositionX));
+
         //Call function to update voice pitch
-        this.mouthSettings.pitch = this.playSpacePositionY;
+        this.mouthSettings.pitch = Mathf.Lerp(this.minPitch, this.maxPitch, this.playSpacePositionY);
 
         return this.mouthSettings;
     }
