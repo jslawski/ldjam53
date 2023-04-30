@@ -72,7 +72,7 @@ public class AudioPlayback : MonoBehaviour
             this.StopVowelAudio();
         }
 
-        AudioChannelSettings audioSettings = new AudioChannelSettings(false, this.currentSettings.pitch, this.currentSettings.pitch, this.currentSettings.volume + (0.5f * this.currentSettings.volume), "Voice");
+        AudioChannelSettings audioSettings = new AudioChannelSettings(false, this.currentSettings.pitch, this.currentSettings.pitch, this.currentSettings.volume + (0.8f * this.currentSettings.volume), "Voice");
         AudioClip consonantClip = MouthSounds.consonantDict[this.currentSettings.consonantKey];
         this.consonantChannelId = AudioManager.instance.Play(consonantClip, audioSettings);
 
@@ -84,7 +84,7 @@ public class AudioPlayback : MonoBehaviour
     {
         float currentDuration = 0;
 
-        float numIncrements = 4.0f;
+        float numIncrements = 3.0f;
         float increment = consonantClip.length / numIncrements;
 
         while (currentDuration < increment * (numIncrements - 1))
@@ -95,7 +95,7 @@ public class AudioPlayback : MonoBehaviour
        
         if (this.currentSettings.pushingAir == true)
         {
-            this.PlayVowel();
+            this.PlayVowel(true, increment);
         }        
     }
    
