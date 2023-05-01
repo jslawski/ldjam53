@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 393242080374587171}
   - component: {fileID: 278851411257265217}
   - component: {fileID: 391622553}
+  - component: {fileID: 596209338812712298}
   m_Layer: 0
   m_Name: TrumPeter_Face
   m_TagString: Untagged
@@ -117,6 +118,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mouth: {fileID: 1497021683802728186}
+--- !u!114 &596209338812712298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5563659918487931321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55d021a90e5b76f4fa1b300cfacbdc14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debugText: {fileID: 0}
 --- !u!1001 &6830707804587097832
 PrefabInstance:
   m_ObjectHideFlags: 0

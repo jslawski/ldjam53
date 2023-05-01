@@ -8,6 +8,10 @@ public class GameSceneDirector : MonoBehaviour
 {
     public static GameSceneDirector instance;
 
+    private Vector3 gameplayFacePosition;
+    private Vector3 gameplayFaceScale;
+    private Vector3 gameplayFaceRotation;
+
     [SerializeField]
     private PlayerController player;
 
@@ -52,6 +56,12 @@ public class GameSceneDirector : MonoBehaviour
         this.voicelineAudioSettings = new AudioChannelSettings(false, 1.0f, 1.0f, 1.0f, "Voice");
 
         FullScript.SetupFullScript();
+
+        Transform initialFaceTransform = this.faceMode.GetFaceTransform();
+
+        this.gameplayFacePosition = initialFaceTransform.position;
+        this.gameplayFaceRotation = initialFaceTransform.rotation.eulerAngles;
+        this.gameplayFaceScale = initialFaceTransform.localScale;
     }
 
     private void PlayBGM(string bgmFileName)
@@ -147,6 +157,8 @@ public class GameSceneDirector : MonoBehaviour
         this.currentSceneId = this.nextSceneId;
         this.nextSceneId++;
 
+        this.faceMode.HideFace();
+
         if (this.currentSceneId >= FullScript.allScenes.Count)
         {
             this.BeginFinalPlaybackSequence();
@@ -160,6 +172,8 @@ public class GameSceneDirector : MonoBehaviour
     private void PlayGameplayPromptCutscene()
     {
         this.PlayImageCutscene(FullScript.allScenes[this.currentSceneId].GetGameplayPromptCutscene());
+
+        this.faceMode.HideFace();
 
         this.fadePanel.FadeFromBlack();
 
@@ -194,6 +208,7 @@ public class GameSceneDirector : MonoBehaviour
     private void BeginGameplay()
     {
         this.faceMode.EnableGameplayMode();
+        this.faceMode.OrientFace(this.gameplayFacePosition, this.gameplayFaceRotation, this.gameplayFaceScale);
 
         this.fadePanel.OnFadeSequenceComplete -= this.BeginGameplay;
 
@@ -237,14 +252,15 @@ public class GameSceneDirector : MonoBehaviour
         this.playbackSceneId = 0;
 
         this.PlayBGM("cutsceneBGM");
-        this.faceMode.EnableCutsceneMode();
-
+        
         //Show establishing cutscene 
         this.PlayVideoCutscene("establishingCutscene.mp4", false, this.PlayNextPlaybackScene);                
     }
 
     private void PlayNextPlaybackScene()
     {
+        this.faceMode.HideFace();
+
         this.fadePanel.SetFillAmount(1.0f);
 
         this.fadePanel.OnFadeSequenceComplete += this.PlayPlaybackVoicelineCutscene;
@@ -266,6 +282,8 @@ public class GameSceneDirector : MonoBehaviour
     private void SetupPlaybackRecordedSentence()
     {
         this.PlayImageCutscene(FullScript.allScenes[this.playbackSceneId].GetPlaybackResponseCutscene());
+
+        this.faceMode.EnableCutsceneMode();
         this.OrientPlayerFace();
 
         this.fadePanel.OnFadeSequenceComplete += this.PlayPlaybackRecordedSentence;
@@ -278,7 +296,7 @@ public class GameSceneDirector : MonoBehaviour
         Vector3 rotation = FullScript.allScenes[this.playbackSceneId].responseCutsceneFaceRotation;
         Vector3 scale = FullScript.allScenes[this.playbackSceneId].responseCutsceneFaceScale;
 
-        this.faceMode.OrientFaceForPlayback(position, rotation, scale);
+        this.faceMode.OrientFace(position, rotation, scale);
     }
 
     private void PlayPlaybackRecordedSentence()

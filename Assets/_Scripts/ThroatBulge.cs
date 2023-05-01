@@ -7,16 +7,13 @@ public class ThroatBulge : MonoBehaviour
     [SerializeField]
     private LineRenderer throat;
 
-    [SerializeField, Range(0.0f, 1.0f)]
-    private float viewportPositionX = 0.5f;
-    [SerializeField, Range(0.0f, 1.0f)]
-    private float viewportPositionYMin = 0.1f;
-    [SerializeField, Range(0.0f, 1.0f)]
-    private float viewportPositionYMax = 0.9f;
+    private float viewportPositionX = 0.338f;
+    private float viewportPositionYMin = 0.16f;
+    private float viewportPositionYMax = 0.84f;
 
     private AnimationCurve bulge;
     
-    private float defaultWidth = 2.0f;    
+    private float defaultWidth = 2.57f;    
     private float maxBulgeWidth = 6.0f;    
     private float bulgeHeight = 0.2f;
 
@@ -43,8 +40,8 @@ public class ThroatBulge : MonoBehaviour
         {
             float offset = (distanceBetweenPositions * i);
 
-            this.throat.SetPosition(i, new Vector3(throatBottom.x, throatTop.y + offset));
-        }
+            this.throat.SetPosition(i, new Vector3(throatBottom.x, throatTop.y + offset, -1.0f));            
+        }        
     }
 
     private void UpdateBulge()
@@ -85,5 +82,15 @@ public class ThroatBulge : MonoBehaviour
     {
         this.UpdateBulge();
         this.throat.widthCurve = this.bulge;
+
+        this.BuildLineRenderer();
+    }
+
+    private void PrintViewportCoordinates()
+    {        
+        Vector3 throatBottom = this.throat.GetPosition(0);
+        Vector3 throatTop = this.throat.GetPosition(100);
+
+        Debug.LogError("Throat Bottom: " + throatBottom + " Throat Top: " + throatTop);
     }
 }

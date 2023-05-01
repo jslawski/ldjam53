@@ -64,6 +64,9 @@ public class PlayerController : MonoBehaviour
             int numSyllablesSaved = 0;
             RecordedWord currentRecordedWord = new RecordedWord();
 
+            WordDisplay.instance.DisplayNewWord(sceneSentence.sentenceWords[i]);
+            WordDisplay.instance.HighlightSyllable(numSyllablesSaved);
+
             while (numSyllablesSaved < sceneSentence.sentenceWords[i].syllables.Count - 1)
             {
                 currentRecordedWord.SaveFrameSettings(this.currentMouthSettings);
@@ -72,6 +75,7 @@ public class PlayerController : MonoBehaviour
                 {
                     this.syllableRecorded = false;
                     numSyllablesSaved++;
+                    WordDisplay.instance.HighlightSyllable(numSyllablesSaved);
                 }
 
                 yield return new WaitForFixedUpdate();

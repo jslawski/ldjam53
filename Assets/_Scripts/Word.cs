@@ -18,4 +18,16 @@ public class Word
         this.wordContents = contents;
         this.syllables = Enumerable.ToList(contents.Split("_"));
     }
+
+    public string GetParsedWord()
+    {
+        string parsedWord = "";
+
+        for (int i = 0; i < syllables.Count; i++)
+        {
+            parsedWord += syllables[i];
+        }
+
+        return parsedWord;
+    }
 }
