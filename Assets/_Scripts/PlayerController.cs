@@ -67,7 +67,7 @@ public class PlayerController : MonoBehaviour
             WordDisplay.instance.DisplayNewWord(sceneSentence.sentenceWords[i]);
             WordDisplay.instance.HighlightSyllable(numSyllablesSaved);
 
-            while (numSyllablesSaved < sceneSentence.sentenceWords[i].syllables.Count - 1)
+            while (numSyllablesSaved < sceneSentence.sentenceWords[i].syllables.Count)
             {
                 currentRecordedWord.SaveFrameSettings(this.currentMouthSettings);
 

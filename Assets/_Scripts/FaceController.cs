@@ -190,13 +190,15 @@ public class FaceController : MonoBehaviour
             float newSize = this.mouth.gameObject.transform.localScale.x + sizeChangePerFrame;
             this.mouth.gameObject.transform.localScale = new Vector3(newSize, newSize, newSize);
 
-            if (Mathf.Abs(targetMouthSize - newSize) <= 0.001f)
+            if (Mathf.Abs(targetMouthSize - newSize) <= 0.01f)
             {
                 this.mouth.gameObject.transform.localScale = new Vector3(targetMouthSize, targetMouthSize, targetMouthSize);
             }
 
             yield return new WaitForFixedUpdate();
         }
+
+        this.mouthSizeCoroutine = null;
     }
 
     public void ResetMouthSize()
@@ -223,7 +225,7 @@ public class FaceController : MonoBehaviour
             float newSize = this.mouth.gameObject.transform.localScale.x + sizeChangePerFrame;
             this.mouth.gameObject.transform.localScale = new Vector3(newSize, newSize, newSize);
 
-            if (Mathf.Abs(targetMouthSize - newSize) <= 0.001f)
+            if (Mathf.Abs(targetMouthSize - newSize) <= 0.01f)
             {
                 this.mouth.gameObject.transform.localScale = new Vector3(targetMouthSize, targetMouthSize, targetMouthSize);
             }

@@ -7,7 +7,7 @@ public class FadePanelManager : MonoBehaviour
 {
     [SerializeField]
     private Image fadePanel;
-    private float fadeSpeed = 3f;
+    private float fadeSpeed = 1.0f;
 
     [SerializeField]
     private bool defaultBlack = false;
@@ -39,9 +39,10 @@ public class FadePanelManager : MonoBehaviour
         StartCoroutine(this.FadeFromBlackCoroutine());
     }
 
-    public void SetFillAmount(float amount)
+    public void SetAlpha(float amount)
     {
-        this.fadePanel.fillAmount = amount;
+        Color updatedColor = new Color(this.fadePanel.color.r, this.fadePanel.color.g, this.fadePanel.color.b, amount);
+        fadePanel.color = updatedColor;
     }
 
     private IEnumerator FadeToBlackCoroutine()
@@ -50,7 +51,7 @@ public class FadePanelManager : MonoBehaviour
         {
             Color updatedColor = new Color(this.fadePanel.color.r, this.fadePanel.color.g, this.fadePanel.color.b, this.fadePanel.color.a + (this.fadeSpeed * Time.fixedDeltaTime));
             fadePanel.color = updatedColor;
-            yield return null;
+            yield return new WaitForFixedUpdate();
         }
 
         this.fadePanel.color = new Color(this.fadePanel.color.r, this.fadePanel.color.g, this.fadePanel.color.b, 1.0f);
@@ -67,7 +68,7 @@ public class FadePanelManager : MonoBehaviour
         {
             Color updatedColor = new Color(this.fadePanel.color.r, this.fadePanel.color.g, this.fadePanel.color.b, this.fadePanel.color.a - (this.fadeSpeed * Time.fixedDeltaTime));
             fadePanel.color = updatedColor;
-            yield return null;
+            yield return new WaitForFixedUpdate();
         }
 
         this.fadePanel.color = new Color(this.fadePanel.color.r, this.fadePanel.color.g, this.fadePanel.color.b, 0.0f);

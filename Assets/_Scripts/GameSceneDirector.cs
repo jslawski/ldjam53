@@ -18,6 +18,7 @@ public class GameSceneDirector : MonoBehaviour
     [SerializeField]
     private bool playbackSentence = true;
 
+    [SerializeField]
     private RawImage cutsceneImage;
 
     public int currentSceneId = 0;
@@ -45,6 +46,11 @@ public class GameSceneDirector : MonoBehaviour
     private delegate void VoicelineComplete();
     private delegate void RecordedSentencePlaybackComplete();
 
+    public bool muted = true;
+
+    [SerializeField]
+    private Texture gameBG;
+
     private void Awake()
     {
         if (instance == null)
@@ -64,6 +70,11 @@ public class GameSceneDirector : MonoBehaviour
         this.gameplayFaceScale = initialFaceTransform.localScale;
     }
 
+    private void Start()
+    {
+        this.StartNewScene();
+    }
+
     #region Utility
     private void OrientPlayerFace()
     {
@@ -76,6 +87,11 @@ public class GameSceneDirector : MonoBehaviour
 
     private void PlayBGM(string bgmFileName)
     {
+        if (this.muted == true)
+        {
+            return;
+        }
+
         AudioClip currentBGM = Resources.Load<AudioClip>("BGM/" + bgmFileName);
 
         if (this.bgmAudioID != -1)
@@ -132,10 +148,23 @@ public class GameSceneDirector : MonoBehaviour
 
     private void PlayVoiceline(int sceneId, VoicelineComplete functionAfterComplete)
     {
+        if (this.muted == true)
+        {
+            StartCoroutine(this.DelayCallback(functionAfterComplete));
+            return;
+        }
+
         AudioClip voiceline = FullScript.allScenes[sceneId].GetPromptVoiceline();
         this.voicelineAudioId = AudioManager.instance.Play(voiceline, voicelineAudioSettings);
 
         StartCoroutine(this.WaitForVoicelineToComplete(functionAfterComplete));
+    }
+
+    private IEnumerator DelayCallback(VoicelineComplete functionAfterComplete)
+    {
+        yield return new WaitForSeconds(3.0f);
+
+        functionAfterComplete();
     }
 
     private IEnumerator WaitForVoicelineToComplete(VoicelineComplete functionAfterComplete)
@@ -215,14 +244,18 @@ public class GameSceneDirector : MonoBehaviour
         this.fadePanel.OnFadeSequenceComplete -= this.PlayPlayerZoomCutscene;
         this.fadePanel.FadeFromBlack();
 
-        this.PlayVideoCutscene("playerZoomCutscene.mp4", false, this.PlayerZoomCutsceneFinish);
+        this.PlayVideoCutscene("Alien_GameplayTransition.mp4", false, this.PlayerZoomCutsceneFinish);
     }
 
     private void PlayerZoomCutsceneFinish()
     {
-        this.fadePanel.SetFillAmount(1.0f);
+        this.fadePanel.SetAlpha(1.0f);
 
-        this.cutsceneImage.enabled = false;
+        this.PlayBGM("GameBGM");
+        this.cutsceneImage.texture = this.gameBG;
+        this.faceMode.OrientFace(this.gameplayFacePosition, this.gameplayFaceRotation, this.gameplayFaceScale);
+
+        this.faceMode.EnableGameplayMode();
 
         this.fadePanel.OnFadeSequenceComplete += this.BeginGameplay;
         this.fadePanel.FadeFromBlack();
@@ -230,11 +263,6 @@ public class GameSceneDirector : MonoBehaviour
 
     private void BeginGameplay()
     {
-        this.PlayBGM("GameBGM");
-
-        this.faceMode.EnableGameplayMode();
-        this.faceMode.OrientFace(this.gameplayFacePosition, this.gameplayFaceRotation, this.gameplayFaceScale);
-
         this.fadePanel.OnFadeSequenceComplete -= this.BeginGameplay;
 
         //Play begin game animation here
@@ -287,14 +315,14 @@ public class GameSceneDirector : MonoBehaviour
         this.PlayBGM("cutsceneBGM");
         
         //Show establishing cutscene 
-        this.PlayVideoCutscene("establishingCutscene.mp4", false, this.PlayNextPlaybackScene);                
+        this.PlayVideoCutscene("EndCutScene_Intro.mp4", false, this.PlayNextPlaybackScene);                
     }
 
     private void PlayNextPlaybackScene()
     {
         this.faceMode.HideFace();
 
-        this.fadePanel.SetFillAmount(1.0f);
+        this.fadePanel.SetAlpha(1.0f);
 
         this.fadePanel.OnFadeSequenceComplete += this.PlayPlaybackVoicelineCutscene;
         this.fadePanel.FadeFromBlack();              

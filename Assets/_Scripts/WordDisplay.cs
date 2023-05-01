@@ -19,8 +19,8 @@ public class WordDisplay : MonoBehaviour
 
     private void Awake()
     {
-        this.highlightTagStart = "<b><u><color=" + ColorUtility.ToHtmlStringRGB(this.highlightedColor) + ">";
-        this.highlightTagEnd = "</b></u></color>";
+        this.highlightTagStart = "<b><color=#" + ColorUtility.ToHtmlStringRGB(this.highlightedColor) + ">";
+        this.highlightTagEnd = "</b></color>";
 
         this.wordText = GetComponent<TextMeshProUGUI>();
 
