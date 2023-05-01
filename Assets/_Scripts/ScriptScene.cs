@@ -6,7 +6,8 @@ using UnityEngine;
 public class ScriptScene : ScriptableObject
 {
     public string gameplayPromptCutsceneFileName;
-    public string playbackPromptCutsceneFileName;   
+    public string playbackPromptCutsceneFileName;
+    public string promptVoicelineFileName;
     public string playbackResponseCutsceneFileName;
     public string responseSentence;
 
@@ -32,5 +33,10 @@ public class ScriptScene : ScriptableObject
     public Texture GetPlaybackResponseCutscene()
     {
         return Resources.Load<Texture>("Cutscenes/" + this.playbackResponseCutsceneFileName);
-    }    
+    }
+
+    public AudioClip GetPromptVoiceline()
+    {
+        return Resources.Load<AudioClip>("Voicelines/" + this.promptVoicelineFileName);
+    }
 }

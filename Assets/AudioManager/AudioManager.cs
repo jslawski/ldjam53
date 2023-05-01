@@ -94,7 +94,10 @@ public class AudioManager : MonoBehaviour
 
     public void Stop(int channelId)
     {
-        this.playingAudioChannels.Find(x => x.channelId == channelId).Stop();
+        if (this.playingAudioChannels.Exists(x => x.channelId == channelId))
+        {
+            this.playingAudioChannels.Find(x => x.channelId == channelId).Stop();
+        }
     }
 
     public int GetNewChannelId()
