@@ -33,15 +33,21 @@ public class AudioPlayback : MonoBehaviour
         this.previousSettings = this.currentSettings;
         this.currentSettings = latestSettings;
 
-        if (this.currentSettings.pushingAir == false && this.vowelChannelId != -1)
+        if (this.currentSettings.pushingAir == false)
         {
-            this.StopVowelAudio();
+            if (this.vowelChannelId != -1)
+            {
+                this.StopVowelAudio();
+            }
+            
+            FaceController.instance.UpdateMouthShapeConsonant(this.currentSettings.consonantKey, true, this.currentSettings.volume);
+            FaceController.instance.ResetMouthSize();
             return;
         }
         
         if (this.currentSettings.pushingAir == true)
         {
-            if (this.currentSettings.consonantKey != "")
+            if (this.previousSettings.pushingAir == false && this.currentSettings.consonantKey != "")
             {
                 this.PlayConsonant();
             }
@@ -50,10 +56,6 @@ public class AudioPlayback : MonoBehaviour
             {
                 this.PlayVowel();
             }
-        }
-        else
-        {
-            FaceController.instance.UpdateMouthShapeConsonant(this.currentSettings.consonantKey, true);
         }
     }    
 
@@ -79,6 +81,8 @@ public class AudioPlayback : MonoBehaviour
         AudioChannelSettings audioSettings = new AudioChannelSettings(false, this.currentSettings.pitch, this.currentSettings.pitch, this.currentSettings.volume + (0.8f * this.currentSettings.volume), "Voice");
         AudioClip consonantClip = MouthSounds.consonantDict[this.currentSettings.consonantKey];
         this.consonantChannelId = AudioManager.instance.Play(consonantClip, audioSettings);
+
+        //FaceController.instance.UpdateMouthSize(this.currentSettings.volume);
 
         //Start coroutine to play Vowel
         StartCoroutine(this.PlayVowelAfterConsonent(consonantClip));
@@ -114,9 +118,11 @@ public class AudioPlayback : MonoBehaviour
         this.SetTonedVowelKey();
 
         AudioClip vowelClip = MouthSounds.vowelDict[this.currentSettings.tonedVowelKey];
-
+        
         if (this.vowelChannelId != -1)
         {
+            FaceController.instance.UpdateMouthSize(this.currentSettings.volume);
+
             AudioManager.instance.SetPitch(this.vowelChannelId, this.currentSettings.pitch);
 
             if (crossfade == false)
@@ -133,7 +139,7 @@ public class AudioPlayback : MonoBehaviour
                 else
                 {
                     this.vowelChannelId = AudioManager.instance.Crossfade(this.vowelChannelId, vowelClip, audioSettings, 0.2f);
-                    FaceController.instance.UpdateMouthShapeVowel(this.currentSettings.vowelKey);
+                    FaceController.instance.UpdateMouthShapeVowel(this.currentSettings.vowelKey, this.currentSettings.volume);
                     return;
                 }
             }
@@ -148,7 +154,7 @@ public class AudioPlayback : MonoBehaviour
             this.vowelChannelId = AudioManager.instance.Play(vowelClip, audioSettings);
         }
 
-        FaceController.instance.UpdateMouthShapeVowel(this.currentSettings.vowelKey);
+        FaceController.instance.UpdateMouthShapeVowel(this.currentSettings.vowelKey, this.currentSettings.volume);
     }
 
     private void SetTonedVowelKey()
@@ -186,12 +192,44 @@ public class AudioPlayback : MonoBehaviour
     {
         this.isPlayingBack = true;
 
-        for (int i = 0; i < playbackWord.recordedSettings.Count; i++)
-        {
-            this.PlayAudio(playbackWord.recordedSettings[i]);
+        int index = 0;
 
-            yield return null;
+        while (playbackWord.recordedSettings[index].pushingAir == false)
+        {
+            index++;
+            if (index + 10 < playbackWord.recordedSettings.Count)
+            {
+                if (playbackWord.recordedSettings[index + 10].pushingAir == true)
+                {
+                    break;
+                }
+            }
         }
+
+        while (index < playbackWord.recordedSettings.Count - 1)
+        {
+            if (playbackWord.recordedSettings[index].pushingAir == false)
+            {
+                if (playbackWord.recordedSettings[index + 1].pushingAir == false)
+                {
+                    index++;
+
+                    while (index < playbackWord.recordedSettings.Count - 1 &&
+                           playbackWord.recordedSettings[index + 1].pushingAir == false)
+                    {
+                        index++;
+                    }
+                }
+            }
+
+            this.PlayAudio(playbackWord.recordedSettings[index]);
+
+            yield return new WaitForFixedUpdate();
+
+            index++;
+        }
+
+        this.PlayAudio(playbackWord.recordedSettings[playbackWord.recordedSettings.Count - 1]);
 
         this.isPlayingBack = false;
     }

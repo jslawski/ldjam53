@@ -53,12 +53,13 @@ public class PlayerController : MonoBehaviour
 
         this.UpdateDebugText();
 
-        AudioPlayback.instance.PlayAudio(this.currentMouthSettings);
+        AudioPlayback.instance.PlayAudio(this.currentMouthSettings); 
+    }
 
-        if (this.currentMouthSettings.pushingAir == true)
-        {
-            this.testWord.SaveFrameSettings(new MouthSettings(this.currentMouthSettings));    
-        }         
+    private void FixedUpdate()
+    {
+        
+        this.testWord.SaveFrameSettings(new MouthSettings(this.currentMouthSettings));        
     }
 
     private void HandleInput()
