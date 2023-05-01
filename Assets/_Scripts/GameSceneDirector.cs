@@ -9,11 +9,14 @@ public class GameSceneDirector : MonoBehaviour
     public static GameSceneDirector instance;
 
     [SerializeField]
+    private PlayerController player;
+
+    [SerializeField]
     private bool playbackSentence = true;
 
     private RawImage cutsceneImage;
 
-    private int currentSceneId = 0;
+    public int currentSceneId = 0;
     private int nextSceneId = 0;
 
     
@@ -22,7 +25,9 @@ public class GameSceneDirector : MonoBehaviour
 
     private Texture stillImageCutsceneTexture;
 
+    [SerializeField]
     private FadePanelManager fadePanel;
+    [SerializeField]
     private VideoPlayer cutscenePlayer;
 
     private int bgmAudioID;
@@ -31,17 +36,12 @@ public class GameSceneDirector : MonoBehaviour
     private AudioChannelSettings bgmAudioSettings;
     private AudioChannelSettings voicelineAudioSettings;
     
-    public bool gameplayActive = false;
-
     private void Awake()
     {
         if (instance == null)
         {
             instance = this;
         }
-
-        this.cutsceneImage = GetComponent<RawImage>();
-        this.cutscenePlayer = GetComponent<VideoPlayer>();
 
         this.bgmAudioSettings = new AudioChannelSettings(true, 1.0f, 1.0f, 1.0f, "BGM");
         this.voicelineAudioSettings = new AudioChannelSettings(false, 1.0f, 1.0f, 1.0f, "Voice");
@@ -53,8 +53,6 @@ public class GameSceneDirector : MonoBehaviour
     {
         this.fadePanel.OnFadeSequenceComplete -= this.StartNewScene;
         
-        this.gameplayActive = false;
-
         this.currentSceneId = this.nextSceneId;
         this.nextSceneId++;
 
@@ -135,9 +133,7 @@ public class GameSceneDirector : MonoBehaviour
     {
         this.fadePanel.OnFadeSequenceComplete -= this.BeginGameplay;
 
-        PlayerController.currentSentence = new RecordedSentence();
-
-        this.gameplayActive = true;        
+        this.player.ActivateGameplay();        
     }
 
     public void EndGameplay()
@@ -147,11 +143,6 @@ public class GameSceneDirector : MonoBehaviour
 
     private IEnumerator EndGameplayCoroutine()
     {
-        this.gameplayActive = false;
-
-        //DO YOU NEED TO CLONE THIS? PROBABLY
-        FullScript.recordedSentences.Add(PlayerController.currentSentence);
-
         float gameplayEndBuffer = 2.0f;
 
         while (gameplayEndBuffer > 0.0f)

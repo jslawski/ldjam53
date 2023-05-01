@@ -11,7 +11,12 @@ public class RecordedSentence
         this.sentenceWords = new List<RecordedWord>();
     }
 
-    public void RecordWord(RecordedWord newWord)
+    public RecordedSentence(RecordedSentence objectToCopy)
+    {
+        this.sentenceWords = objectToCopy.sentenceWords;
+    }
+
+    public void SaveWord(RecordedWord newWord)
     {
         this.sentenceWords.Add(newWord);
     }

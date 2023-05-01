@@ -11,15 +11,13 @@ public class RecordedWord
         this.recordedSettings = new List<MouthSettings>();
     }
 
+    public RecordedWord(RecordedWord objectToCopy)
+    {
+        this.recordedSettings = objectToCopy.recordedSettings;
+    }
+
     public void SaveFrameSettings(MouthSettings frameSettings)
     {
         this.recordedSettings.Add(frameSettings);
     }
-
-    /*
-    public void Playback()
-    {
-        AudioPlayback.instance.PlaybackRecordedWord(this);
-    } 
-    */
 }

@@ -13,10 +13,5 @@ public static class FullScript
         allScenes = Enumerable.ToList(Resources.LoadAll<ScriptScene>("ScriptScenes"));
         recordedSentences = new List<RecordedSentence>();
         MouthSounds.Setup("Jared");
-    }
-
-    public static void SaveRecordedSentence(RecordedSentence newSentence)
-    {
-        recordedSentences.Add(newSentence);
-    }    
+    }   
 }

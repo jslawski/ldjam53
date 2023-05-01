@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField, Range(0.0f, 1.0f)]
     private static float playspaceClampRight = 0.7f;
 
-    public static RecordedSentence currentSentence;
+    private bool syllableRecorded = false;
 
     // Start is called before the first frame update
     void Start()
@@ -34,26 +34,61 @@ public class PlayerController : MonoBehaviour
         this.currentMouthSettings = new MouthSettings();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ActivateGameplay()
     {
-        if (GameSceneDirector.instance.gameplayActive == false)
-        {
-            return;
-        }
-
-        this.debugText.text = "";
-        this.HandleInput();
-
-        this.UpdateDebugText();
-
-        AudioPlayback.instance.PlayAudio(this.currentMouthSettings); 
+        StartCoroutine(this.UpdateCoroutine());
+        StartCoroutine(this.FixedUpdateCoroutine());
     }
 
-    private void FixedUpdate()
+    private IEnumerator UpdateCoroutine()
     {
-        
-        //this.testWord.SaveFrameSettings(new MouthSettings(this.currentMouthSettings));        
+        while (true)
+        {
+            this.debugText.text = "";
+            this.HandleInput();
+            this.UpdateDebugText();
+
+            AudioPlayback.instance.PlayAudio(this.currentMouthSettings);
+
+            yield return null;
+        }
+    }
+
+    private IEnumerator FixedUpdateCoroutine()
+    {
+        Sentence sceneSentence = FullScript.allScenes[GameSceneDirector.instance.currentSceneId].GetSentence();
+        RecordedSentence currentRecordedSentence = new RecordedSentence();
+
+        for (int i = 0; i < sceneSentence.sentenceWords.Count; i++)
+        {
+            int numSyllablesSaved = 0;
+            RecordedWord currentRecordedWord = new RecordedWord();
+
+            while (numSyllablesSaved < sceneSentence.sentenceWords[i].syllables.Count - 1)
+            {
+                currentRecordedWord.SaveFrameSettings(this.currentMouthSettings);
+
+                if (this.syllableRecorded == true)
+                {
+                    this.syllableRecorded = false;
+                    numSyllablesSaved++;
+                }
+
+                yield return new WaitForFixedUpdate();
+            }
+
+            currentRecordedSentence.SaveWord(new RecordedWord(currentRecordedWord));
+        }
+
+        FullScript.recordedSentences.Add(new RecordedSentence(currentRecordedSentence));
+
+        this.EndGameplay();
+    }
+
+    private void EndGameplay()
+    {
+        StopAllCoroutines();
+        GameSceneDirector.instance.EndGameplay();
     }
 
     private void HandleInput()
@@ -112,6 +147,11 @@ public class PlayerController : MonoBehaviour
         if (consonantKey.Length > 2)
         {
             consonantKey = this.ReplaceKeyWithCache();
+        }
+
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            this.syllableRecorded = true;
         }
 
         return new KeyboardCommand(new MouthSettings(this.currentMouthSettings), consonantKey, spacePressed);

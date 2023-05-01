@@ -5,7 +5,7 @@ using UnityEngine;
 public class KeyboardCommand : Command
 {
     private string consonantKey;
-    private bool spacePressed;
+    public bool spacePressed;
 
     public KeyboardCommand(MouthSettings settings, string conKey, bool spacePressed)
     {
