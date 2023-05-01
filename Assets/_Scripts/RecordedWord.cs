@@ -16,8 +16,10 @@ public class RecordedWord
         this.recordedSettings.Add(frameSettings);
     }
 
+    /*
     public void Playback()
     {
         AudioPlayback.instance.PlaybackRecordedWord(this);
-    }    
+    } 
+    */
 }

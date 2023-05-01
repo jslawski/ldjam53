@@ -10,7 +10,8 @@ public class AudioPlayback : MonoBehaviour
     private int vowelChannelId = -1;
     private int consonantChannelId = -1;
 
-    public bool isPlayingBack = false;
+    private bool isWordPlayingBack = false;
+    public bool isSentencePlayingBack = false;
 
     public static AudioPlayback instance;
 
@@ -181,14 +182,36 @@ public class AudioPlayback : MonoBehaviour
         this.vowelChannelId = -1;
     }
 
-    public void PlaybackRecordedWord(RecordedWord playbackWord)
+    public void PlaybackRecordedSentence(RecordedSentence playbackSentence)
+    {
+        StartCoroutine(this.PlaybackSentenceCoroutine(playbackSentence));
+    }
+
+    private IEnumerator PlaybackSentenceCoroutine(RecordedSentence playbackSentence)
+    {
+        this.isSentencePlayingBack = true;
+
+        for (int i = 0; i < playbackSentence.sentenceWords.Count; i++)
+        {
+            this.PlaybackRecordedWord(playbackSentence.sentenceWords[i]);
+
+            while (this.isWordPlayingBack == true)
+            {
+                yield return new WaitForFixedUpdate();
+            }
+        }
+
+        this.isSentencePlayingBack = false;
+    }
+
+    private void PlaybackRecordedWord(RecordedWord playbackWord)
     {
         StartCoroutine(this.PlaybackCoroutine(playbackWord));
     }
 
     private IEnumerator PlaybackCoroutine(RecordedWord playbackWord)
     {
-        this.isPlayingBack = true;
+        this.isWordPlayingBack = true;
 
         int index = 0;
 
@@ -229,6 +252,6 @@ public class AudioPlayback : MonoBehaviour
 
         this.PlayAudio(playbackWord.recordedSettings[playbackWord.recordedSettings.Count - 1]);
 
-        this.isPlayingBack = false;
+        this.isWordPlayingBack = false;
     }
 }

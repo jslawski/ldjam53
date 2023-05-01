@@ -25,25 +25,19 @@ public class PlayerController : MonoBehaviour
     [SerializeField, Range(0.0f, 1.0f)]
     private static float playspaceClampRight = 0.7f;
 
-    private RecordedWord testWord;
-
-    private void Awake()
-    {
-        MouthSounds.Setup("Jared");
-    }
+    public static RecordedSentence currentSentence;
 
     // Start is called before the first frame update
     void Start()
     {
         this.keyCache = new Queue<KeyCode>();
         this.currentMouthSettings = new MouthSettings();
-        this.testWord = new RecordedWord();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (AudioPlayback.instance.isPlayingBack == true)
+        if (GameSceneDirector.instance.gameplayActive == false)
         {
             return;
         }
@@ -59,16 +53,11 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         
-        this.testWord.SaveFrameSettings(new MouthSettings(this.currentMouthSettings));        
+        //this.testWord.SaveFrameSettings(new MouthSettings(this.currentMouthSettings));        
     }
 
     private void HandleInput()
     {
-        if (Input.GetKeyUp(KeyCode.LeftShift))
-        {
-            this.testWord.Playback();
-        }
-
         if (Input.GetKeyUp(KeyCode.Tab))
         {
             this.debugText.enabled = !this.debugText.enabled;

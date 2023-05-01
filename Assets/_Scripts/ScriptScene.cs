@@ -18,4 +18,19 @@ public class ScriptScene : ScriptableObject
     {
         return new Sentence(this.responseSentence);
     }
+
+    public Texture GetGameplayPromptCutscene()
+    {
+        return Resources.Load<Texture>("Cutscenes/" + this.gameplayPromptCutsceneFileName);
+    }
+
+    public string GetPlaybackPromptCutsceneURL()
+    {
+        return System.IO.Path.Combine(Application.streamingAssetsPath, this.playbackPromptCutsceneFileName);
+    }
+
+    public Texture GetPlaybackResponseCutscene()
+    {
+        return Resources.Load<Texture>("Cutscenes/" + this.playbackResponseCutsceneFileName);
+    }    
 }
