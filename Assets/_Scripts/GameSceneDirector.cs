@@ -51,6 +51,9 @@ public class GameSceneDirector : MonoBehaviour
     [SerializeField]
     private Texture gameBG;
 
+    [SerializeField]
+    private GameObject toBeContinuedPanel;
+
     private void Awake()
     {
         if (instance == null)
@@ -336,7 +339,7 @@ public class GameSceneDirector : MonoBehaviour
     private void PlayPlaybackVoicelineCutscene()
     {        
         this.fadePanel.OnFadeSequenceComplete -= this.PlayPlaybackVoicelineCutscene;
-        this.PlayVideoCutscene(FullScript.allScenes[this.playbackSceneId].GetPlaybackPromptCutsceneURL());
+        this.PlayVideoCutscene(FullScript.allScenes[this.playbackSceneId].GetPlaybackPromptCutsceneURL(), true);
         this.PlayVoiceline(this.playbackSceneId, PlaybackVoicelineComplete);            
     }
 
@@ -384,8 +387,14 @@ public class GameSceneDirector : MonoBehaviour
         }
         else
         {
-            //Do an endgame thing here!
+            this.DisplayToBeContinued();
         }
+    }
+
+    private void DisplayToBeContinued()
+    {
+        this.toBeContinuedPanel.gameObject.SetActive(true);
+        this.fadePanel.FadeFromBlack();
     }
     #endregion
 }
