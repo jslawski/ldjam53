@@ -7,15 +7,15 @@ public class ThroatBulge : MonoBehaviour
     [SerializeField]
     private LineRenderer throat;
 
-    private float viewportPositionX = 0.338f;
-    private float viewportPositionYMin = 0.16f;
-    private float viewportPositionYMax = 0.84f;
+    private float viewportPositionX = 0.342f;
+    private float viewportPositionYMin = 0.175f;
+    private float viewportPositionYMax = 0.826f;
 
     private AnimationCurve bulge;
     
-    private float defaultWidth = 2.57f;    
-    private float maxBulgeWidth = 6.0f;    
-    private float bulgeHeight = 0.2f;
+    private float defaultWidth = 2.5f;
+    private float maxBulgeWidth = 8.0f;
+    private float bulgeHeight = 0.3f;
 
     // Start is called before the first frame update
     void Start()

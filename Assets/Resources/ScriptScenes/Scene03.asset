@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0908758d9dd7c9147a78ea53fea96462, type: 3}
-  m_Name: Scene2
+  m_Name: Scene03
   m_EditorClassIdentifier: 
   gameplayPromptCutsceneFileName: ChazGamePrompt
-  playbackPromptCutsceneFileName: Scene002
+  playbackPromptCutsceneFileName: Scene003
   promptVoicelineFileName: 
-  playbackResponseCutsceneFileName: FlearpScene002
-  responseSentence: I HA_VE O_FF_S_P_RI_N_G?
+  playbackResponseCutsceneFileName: FlearpScene003
+  responseSentence: THA_N_K
   responseCutsceneFacePosition: {x: 0.6, y: 1.41, z: -1.65}
   responseCutsceneFaceRotation: {x: 3, y: 23, z: -5.5}
   responseCutsceneFaceScale: {x: 4.3, y: 4.3, z: 4.3}

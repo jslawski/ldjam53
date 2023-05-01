@@ -11,8 +11,8 @@ public class FaceController : MonoBehaviour
 
     private Coroutine mouthSizeCoroutine = null;
 
-    private float minMouthSize = 0.6f;
-    private float maxMouthSize = 1.2f;
+    private float minMouthSize = 0.9f;
+    private float maxMouthSize = 1.0f;
 
     private void Awake()
     {

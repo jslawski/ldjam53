@@ -72,6 +72,7 @@ public class GameSceneDirector : MonoBehaviour
 
     private void Start()
     {
+        Cursor.visible = false;
         this.StartNewScene();
     }
 
@@ -313,7 +314,9 @@ public class GameSceneDirector : MonoBehaviour
         this.playbackSceneId = 0;
 
         this.PlayBGM("cutsceneBGM");
-        
+
+        this.fadePanel.FadeFromBlack();
+
         //Show establishing cutscene 
         this.PlayVideoCutscene("EndCutScene_Intro.mp4", false, this.PlayNextPlaybackScene);                
     }
@@ -331,6 +334,7 @@ public class GameSceneDirector : MonoBehaviour
     private void PlayPlaybackVoicelineCutscene()
     {        
         this.fadePanel.OnFadeSequenceComplete -= this.PlayPlaybackVoicelineCutscene;
+        this.PlayVideoCutscene(FullScript.allScenes[this.playbackSceneId].GetPlaybackPromptCutsceneURL());
         this.PlayVoiceline(this.playbackSceneId, PlaybackVoicelineComplete);            
     }
 
@@ -342,6 +346,8 @@ public class GameSceneDirector : MonoBehaviour
 
     private void SetupPlaybackRecordedSentence()
     {
+        this.fadePanel.OnFadeSequenceComplete -= this.SetupPlaybackRecordedSentence;
+
         this.PlayImageCutscene(FullScript.allScenes[this.playbackSceneId].GetPlaybackResponseCutscene());
 
         this.faceMode.EnableCutsceneMode();

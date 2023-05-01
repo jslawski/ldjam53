@@ -13,17 +13,14 @@ public class PlayerController : MonoBehaviour
 
     private Queue<KeyCode> keyCache;
 
-    [SerializeField]
-    private TextMeshProUGUI debugText;
-
     [SerializeField, Range(0.0f, 1.0f)]
     private static float playspaceClampTop = 0.8f;
     [SerializeField, Range(0.0f, 1.0f)]
     private static float playspaceClampBottom = 0.2f;
     [SerializeField, Range(0.0f, 1.0f)]
-    private static float playspaceClampLeft = 0.3f;
+    private static float playspaceClampLeft = 0.1f;
     [SerializeField, Range(0.0f, 1.0f)]
-    private static float playspaceClampRight = 0.7f;
+    private static float playspaceClampRight = 0.9f;
 
     private bool syllableRecorded = false;
 
@@ -44,9 +41,7 @@ public class PlayerController : MonoBehaviour
     {
         while (true)
         {
-            this.debugText.text = "";
             this.HandleInput();
-            this.UpdateDebugText();
 
             AudioPlayback.instance.PlayAudio(this.currentMouthSettings);
 
@@ -91,17 +86,14 @@ public class PlayerController : MonoBehaviour
 
     private void EndGameplay()
     {
+        WordDisplay.instance.ClearWord();
+
         StopAllCoroutines();
         GameSceneDirector.instance.EndGameplay();
     }
 
     private void HandleInput()
     {
-        if (Input.GetKeyUp(KeyCode.Tab))
-        {
-            this.debugText.enabled = !this.debugText.enabled;
-        }
-
         this.currentMouseCommand = this.HandleMouseInput();
         this.currentMouthSettings = this.currentMouseCommand.Execute();
 
@@ -236,12 +228,5 @@ public class PlayerController : MonoBehaviour
         }
 
         return new Vector3(playspacePositionX, playspacePositionY, 0.0f);
-    }
-
-    private void UpdateDebugText()
-    {
-        this.debugText.text += "Mouse Pos: (" + this.currentMouthSettings.volume + ", " + this.currentMouthSettings.pitch + ")\n";
-        this.debugText.text += "Vowel: " + this.currentMouthSettings.vowelKey + "\n";
-        this.debugText.text += "Consonant Key: " + this.currentMouthSettings.consonantKey + "\nSpace: " + this.currentMouthSettings.pushingAir;
     }
 }

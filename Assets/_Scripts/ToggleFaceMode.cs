@@ -16,20 +16,43 @@ public class ToggleFaceMode : MonoBehaviour
 
     public void EnableCutsceneMode()
     {
+        this.gameObject.SetActive(true);
+
         this.eyes.SetActive(false);
         this.mouth.gameObject.SetActive(true);
-        this.mouth.materials[3] = cutsceneMouth;
+        this.ChangeLipMaterial(true);
     }
 
     public void EnableGameplayMode()
     {
+        this.gameObject.SetActive(true);
+
         this.eyes.SetActive(true);
         this.mouth.gameObject.SetActive(true);
-        this.mouth.materials[3] = gameplayMouth;
+
+
+        this.ChangeLipMaterial(false);
+    }
+
+    private void ChangeLipMaterial(bool isCutscene)
+    {
+        Material[] mats = this.mouth.materials;
+
+        if (isCutscene == true)
+        {
+            mats[3] = this.cutsceneMouth;
+        }
+        else
+        {
+            mats[3] = this.gameplayMouth;
+        }
+
+        this.mouth.materials = mats;
     }
 
     public void HideFace()
     {
+        this.gameObject.SetActive(false);
         this.eyes.SetActive(false);
         this.mouth.gameObject.SetActive(false);
     }

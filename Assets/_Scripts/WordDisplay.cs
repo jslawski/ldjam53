@@ -60,4 +60,9 @@ public class WordDisplay : MonoBehaviour
     {
         this.wordText.text = wordText;
     }
+
+    public void ClearWord()
+    {
+        this.wordText.text = "";
+    }
 }
