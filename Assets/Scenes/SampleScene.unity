@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 241625454}
   - component: {fileID: 241625453}
   m_Layer: 5
-  m_Name: StaticImage
+  m_Name: DisplayImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

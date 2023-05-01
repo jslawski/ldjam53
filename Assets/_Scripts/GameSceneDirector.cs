@@ -284,13 +284,29 @@ public class GameSceneDirector : MonoBehaviour
     private void PlayPlaybackRecordedSentence()
     {
         this.fadePanel.OnFadeSequenceComplete -= this.PlayPlaybackRecordedSentence;
-        
-        //this.PlayRecordedSentence(this.playbackSceneId, )
-        
+
+        this.PlayRecordedSentence(this.playbackSceneId, this.SetupNextPlaybackScene);        
     }
 
     private void SetupNextPlaybackScene()
     {
+        this.fadePanel.OnFadeSequenceComplete += this.FadeIntoNextPlaybackScene;
+        this.fadePanel.FadeToBlack();
+    }
 
+    private void FadeIntoNextPlaybackScene()
+    {
+        this.fadePanel.OnFadeSequenceComplete -= this.FadeIntoNextPlaybackScene;
+
+        this.playbackSceneId++;
+
+        if (this.playbackSceneId < FullScript.allScenes.Count)
+        {
+            this.PlayNextPlaybackScene();
+        }
+        else
+        {
+            //Do an endgame thing here!
+        }
     }
 }
