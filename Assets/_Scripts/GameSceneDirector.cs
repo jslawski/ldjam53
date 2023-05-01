@@ -68,9 +68,14 @@ public class GameSceneDirector : MonoBehaviour
     {
         AudioClip currentBGM = Resources.Load<AudioClip>("BGM/" + bgmFileName);
 
-        AudioManager.instance.Stop(this.bgmAudioID);
-
-        this.bgmAudioID = AudioManager.instance.Play(currentBGM, this.bgmAudioSettings);
+        if (this.bgmAudioID != -1)
+        {
+            this.bgmAudioID = AudioManager.instance.Crossfade(this.bgmAudioID, currentBGM, this.bgmAudioSettings, 0.3f);
+        }
+        else
+        {
+            this.bgmAudioID = AudioManager.instance.Play(currentBGM, this.bgmAudioSettings);
+        }        
     }
 
     private void PlayImageCutscene(Texture imageTexture)
@@ -207,6 +212,8 @@ public class GameSceneDirector : MonoBehaviour
 
     private void BeginGameplay()
     {
+        this.PlayBGM("GameBGM");
+
         this.faceMode.EnableGameplayMode();
         this.faceMode.OrientFace(this.gameplayFacePosition, this.gameplayFaceRotation, this.gameplayFaceScale);
 

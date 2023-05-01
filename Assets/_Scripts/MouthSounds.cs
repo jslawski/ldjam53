@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public static class MouthSounds
@@ -8,13 +9,20 @@ public static class MouthSounds
     public static Dictionary<string, AudioClip> vowelDict;
     public static List<string> vowelList;
 
+    public static Dictionary<string, Sprite> consonantSpriteDict;
+    public static List<Sprite> vowelUISprites;
+
+
     public static void Setup(string characterKey)
     {
         LoadMouthSoundDict(characterKey);
         LoadVowelList();
+
+        LoadConsonantUISprites();
+        LoadVowelUISprites();
     }
 
-    public static void LoadMouthSoundDict(string characterKey)
+    private static void LoadMouthSoundDict(string characterKey)
     {
         consonantDict = new Dictionary<string, AudioClip>();
         vowelDict = new Dictionary<string, AudioClip>();
@@ -64,7 +72,7 @@ public static class MouthSounds
         vowelDict.Add("UU_3", Resources.Load<AudioClip>("MouthSounds/" + characterKey + "/Vowels/UU_3"));
     }
 
-    public static void LoadVowelList()
+    private static void LoadVowelList()
     {
         vowelList = new List<string>();
 
@@ -78,5 +86,27 @@ public static class MouthSounds
         vowelList.Add("OO");
         vowelList.Add("U");
         vowelList.Add("UU");
+    }
+
+    private static void LoadConsonantUISprites()
+    {
+        consonantSpriteDict = new Dictionary<string, Sprite>();
+
+        consonantSpriteDict.Add("A", Resources.Load<Sprite>("UI/Consonants/A"));
+        consonantSpriteDict.Add("AW", Resources.Load<Sprite>("UI/Consonants/AW"));
+        consonantSpriteDict.Add("AS", Resources.Load<Sprite>("UI/Consonants/AS"));
+        consonantSpriteDict.Add("W", Resources.Load<Sprite>("UI/Consonants/W"));
+        consonantSpriteDict.Add("WS", Resources.Load<Sprite>("UI/Consonants/WS"));
+        consonantSpriteDict.Add("SD", Resources.Load<Sprite>("UI/Consonants/SD"));
+        consonantSpriteDict.Add("S", Resources.Load<Sprite>("UI/Consonants/S"));
+        consonantSpriteDict.Add("WD", Resources.Load<Sprite>("UI/Consonants/WD"));
+        consonantSpriteDict.Add("AD", Resources.Load<Sprite>("UI/Consonants/AD"));
+        consonantSpriteDict.Add("D", Resources.Load<Sprite>("UI/Consonants/D"));
+        consonantSpriteDict.Add("", Resources.Load<Sprite>("UI/Consonants/Default"));
+    }
+
+    private static void LoadVowelUISprites()
+    {
+        vowelUISprites = Enumerable.ToList(Resources.LoadAll<Sprite>("UI/Vowels"));
     }
 }

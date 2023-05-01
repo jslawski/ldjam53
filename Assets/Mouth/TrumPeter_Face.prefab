@@ -60,7 +60,7 @@ Transform:
   m_GameObject: {fileID: 5563659918487931321}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2.6, y: 2.6, z: 2.6}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6431481063700756921}
@@ -103,7 +103,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eyes: {fileID: 5911789657854092035}
   mouth: {fileID: 1497021683802728186}
-  cutsceneMouth: {fileID: 2100000, guid: 414f23ab8ab27a24bbe122950843a61e, type: 2}
+  cutsceneMouth: {fileID: 2100000, guid: 88374d0f476833a47a510a1cf1c6d3b5, type: 2}
   gameplayMouth: {fileID: 2100000, guid: e6593ced9491ed4469fafeee3f15a30d, type: 2}
 --- !u!114 &391622553
 MonoBehaviour:
@@ -307,11 +307,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a6f019d1065be6b429c770bf84b9caf4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.009
+      value: 0.08
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a6f019d1065be6b429c770bf84b9caf4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.2321216
+      value: 0.33
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a6f019d1065be6b429c770bf84b9caf4, type: 3}
       propertyPath: m_LocalPosition.z

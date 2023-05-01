@@ -33,6 +33,7 @@ public class VowelCommand : Command
             }
             
             this.mouthSettings.vowelKey = MouthSounds.vowelList[newIndex];
+            UIManager.instance.UpdateVowelUI(newIndex);
         }
         else if (this.scrollDelta < 0)
         {
@@ -44,8 +45,9 @@ public class VowelCommand : Command
             }
             
             this.mouthSettings.vowelKey = MouthSounds.vowelList[newIndex];
+            UIManager.instance.UpdateVowelUI(newIndex);
         }
-
+        
         return this.mouthSettings;
     } 
 }

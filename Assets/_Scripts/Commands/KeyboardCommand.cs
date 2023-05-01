@@ -33,7 +33,9 @@ public class KeyboardCommand : Command
         }
 
         this.mouthSettings.consonantKey = this.consonantKey;
-        
+
+        UIManager.instance.UpdateConsonantUI(this.consonantKey);
+
         return this.mouthSettings;
     }
 }
