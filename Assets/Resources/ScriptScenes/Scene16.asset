@@ -16,7 +16,7 @@ MonoBehaviour:
   playbackPromptCutsceneFileName: Scene016
   promptVoicelineFileName: 
   playbackResponseCutsceneFileName: FlearpScene016
-  responseSentence: H_OW H_A_VE S_ON IF IN C_OM_A?
+  responseSentence: HO_W HA_VE SO_N I_F I_N CO_MA?
   responseCutsceneFacePosition: {x: 0, y: 0, z: 0}
   responseCutsceneFaceRotation: {x: 0, y: 0, z: 0}
   responseCutsceneFaceScale: {x: 0, y: 0, z: 0}

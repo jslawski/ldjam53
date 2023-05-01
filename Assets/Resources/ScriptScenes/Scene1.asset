@@ -16,7 +16,7 @@ MonoBehaviour:
   playbackPromptCutsceneFileName: Scene001
   promptVoicelineFileName: 
   playbackResponseCutsceneFileName: FlearpScene001
-  responseSentence: LA_R_GE F_I_RE
+  responseSentence: LA_R_GE FI_RE
   responseCutsceneFacePosition: {x: 0.46, y: 0.69, z: -1.65}
   responseCutsceneFaceRotation: {x: 3, y: 23, z: -5.5}
   responseCutsceneFaceScale: {x: 7.6, y: 7.6, z: 7.6}

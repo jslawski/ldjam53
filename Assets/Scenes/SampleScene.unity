@@ -591,7 +591,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 106.85
+  m_fontSize: 74.2
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1032,7 +1032,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b650c0ca096aca438c9d7d1de9d7d4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vowelUI: {fileID: 0}
+  vowelUI: {fileID: 1254033542}
   consonantUI: {fileID: 618302455}
 --- !u!1 &1254033540
 GameObject:
@@ -1092,7 +1092,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 9a7448065c8e92c4cb1085053143f4bf, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9e14e4e7c0ea85249abde8820c9fa8c2, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

@@ -16,7 +16,7 @@ MonoBehaviour:
   playbackPromptCutsceneFileName: Scene003
   promptVoicelineFileName: 
   playbackResponseCutsceneFileName: FlearpScene003
-  responseSentence: TH_A_N_K
+  responseSentence: THA_N_K
   responseCutsceneFacePosition: {x: 0.6, y: 1.41, z: -1.65}
   responseCutsceneFaceRotation: {x: 3, y: 23, z: -5.5}
   responseCutsceneFaceScale: {x: 4.3, y: 4.3, z: 4.3}

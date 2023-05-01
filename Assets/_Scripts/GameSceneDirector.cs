@@ -64,6 +64,16 @@ public class GameSceneDirector : MonoBehaviour
         this.gameplayFaceScale = initialFaceTransform.localScale;
     }
 
+    #region Utility
+    private void OrientPlayerFace()
+    {
+        Vector3 position = FullScript.allScenes[this.playbackSceneId].responseCutsceneFacePosition;
+        Vector3 rotation = FullScript.allScenes[this.playbackSceneId].responseCutsceneFaceRotation;
+        Vector3 scale = FullScript.allScenes[this.playbackSceneId].responseCutsceneFaceScale;
+
+        this.faceMode.OrientFace(position, rotation, scale);
+    }
+
     private void PlayBGM(string bgmFileName)
     {
         AudioClip currentBGM = Resources.Load<AudioClip>("BGM/" + bgmFileName);
@@ -155,6 +165,14 @@ public class GameSceneDirector : MonoBehaviour
         functionAfterComplete();
     }
 
+    private void PlayAlertAnimation()
+    {
+
+    }
+
+    #endregion
+
+    #region Game Loop
     public void StartNewScene()
     {
         this.fadePanel.OnFadeSequenceComplete -= this.StartNewScene;
@@ -219,11 +237,17 @@ public class GameSceneDirector : MonoBehaviour
 
         this.fadePanel.OnFadeSequenceComplete -= this.BeginGameplay;
 
+        //Play begin game animation here
+
+        //Put this at the end of it
         this.player.ActivateGameplay();        
     }
 
     public void EndGameplay()
     {
+        //Play endgame animation here
+        //Copy/paste stuff from the coroutine at the end of it
+
         StartCoroutine(EndGameplayCoroutine());
     }
 
@@ -253,7 +277,9 @@ public class GameSceneDirector : MonoBehaviour
         this.fadePanel.OnFadeSequenceComplete += this.StartNewScene;
         this.fadePanel.FadeToBlack();
     }
-    
+    #endregion
+
+    #region Final Playback
     private void BeginFinalPlaybackSequence()
     {
         this.playbackSceneId = 0;
@@ -295,16 +321,7 @@ public class GameSceneDirector : MonoBehaviour
 
         this.fadePanel.OnFadeSequenceComplete += this.PlayPlaybackRecordedSentence;
         this.fadePanel.FadeFromBlack();
-    }
-
-    private void OrientPlayerFace()
-    {
-        Vector3 position = FullScript.allScenes[this.playbackSceneId].responseCutsceneFacePosition;
-        Vector3 rotation = FullScript.allScenes[this.playbackSceneId].responseCutsceneFaceRotation;
-        Vector3 scale = FullScript.allScenes[this.playbackSceneId].responseCutsceneFaceScale;
-
-        this.faceMode.OrientFace(position, rotation, scale);
-    }
+    }    
 
     private void PlayPlaybackRecordedSentence()
     {
@@ -334,4 +351,5 @@ public class GameSceneDirector : MonoBehaviour
             //Do an endgame thing here!
         }
     }
+    #endregion
 }
