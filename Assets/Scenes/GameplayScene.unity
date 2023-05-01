@@ -2163,7 +2163,7 @@ MonoBehaviour:
   fadePanel: {fileID: 1362378572}
   cutscenePlayer: {fileID: 241625453}
   faceMode: {fileID: 1878514766}
-  muted: 1
+  muted: 0
   gameBG: {fileID: 2800000, guid: 48fdf85c8bf4ebe4095fb7fcd79ff0f2, type: 3}
 --- !u!4 &2131045609
 Transform:

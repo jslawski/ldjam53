@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameplayPromptCutsceneFileName: ChazGamePrompt
   playbackPromptCutsceneFileName: Scene010
-  promptVoicelineFileName: 
+  promptVoicelineFileName: 10
   playbackResponseCutsceneFileName: FlearpScene010
   responseSentence: I CA_N'_T BE_LIE_VE
   responseCutsceneFacePosition: {x: 0.1, y: 1.5, z: -1.65}

@@ -88,6 +88,8 @@ public class GameSceneDirector : MonoBehaviour
 
     private void PlayBGM(string bgmFileName)
     {
+        return;
+
         if (this.muted == true)
         {
             return;
