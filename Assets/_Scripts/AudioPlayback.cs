@@ -38,19 +38,23 @@ public class AudioPlayback : MonoBehaviour
             this.StopVowelAudio();
             return;
         }
-
+        
         if (this.currentSettings.pushingAir == true)
         {
             if (this.currentSettings.consonantKey != "")
             {
                 this.PlayConsonant();
             }
-            
+
             if (AudioManager.instance.IsPlaying(this.consonantChannelId) == false)
             {
                 this.PlayVowel();
-            }            
-        }        
+            }
+        }
+        else
+        {
+            FaceController.instance.UpdateMouthShapeConsonant(this.currentSettings.consonantKey, true);
+        }
     }    
 
     //Consonants should only be played when:
@@ -84,10 +88,10 @@ public class AudioPlayback : MonoBehaviour
     {
         float currentDuration = 0;
 
-        float numIncrements = 3.0f;
+        float numIncrements = 1.0f;
         float increment = consonantClip.length / numIncrements;
-
-        while (currentDuration < increment * (numIncrements - 1))
+        while (AudioManager.instance.IsPlaying(this.consonantChannelId))
+        //while (currentDuration < increment * (numIncrements - 1))
         {            
             yield return new WaitForFixedUpdate();
             currentDuration += Time.fixedDeltaTime;
@@ -95,7 +99,7 @@ public class AudioPlayback : MonoBehaviour
        
         if (this.currentSettings.pushingAir == true)
         {
-            this.PlayVowel(true, increment);
+            this.PlayVowel();
         }        
     }
    
@@ -129,6 +133,7 @@ public class AudioPlayback : MonoBehaviour
                 else
                 {
                     this.vowelChannelId = AudioManager.instance.Crossfade(this.vowelChannelId, vowelClip, audioSettings, 0.2f);
+                    FaceController.instance.UpdateMouthShapeVowel(this.currentSettings.vowelKey);
                     return;
                 }
             }
@@ -142,6 +147,8 @@ public class AudioPlayback : MonoBehaviour
         {
             this.vowelChannelId = AudioManager.instance.Play(vowelClip, audioSettings);
         }
+
+        FaceController.instance.UpdateMouthShapeVowel(this.currentSettings.vowelKey);
     }
 
     private void SetTonedVowelKey()
@@ -152,7 +159,7 @@ public class AudioPlayback : MonoBehaviour
         {
             tonedVowel += "_1";
         }
-        else if (this.currentSettings.volume <= 0.9f)
+        else if (this.currentSettings.volume <= 0.7f)
         {
             tonedVowel += "_2";
         }

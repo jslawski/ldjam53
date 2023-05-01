@@ -10,7 +10,7 @@ public class MouseCommand : Command
     private float playSpacePositionY = 0f;
 
     private float minVolume = 0.0f;
-    private float maxVolume = 2.0f;
+    private float maxVolume = 1.5f;
 
     private float minPitch = 0.9f;
     private float maxPitch = 1.1f;
