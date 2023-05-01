@@ -82,8 +82,6 @@ public class AudioPlayback : MonoBehaviour
         AudioClip consonantClip = MouthSounds.consonantDict[this.currentSettings.consonantKey];
         this.consonantChannelId = AudioManager.instance.Play(consonantClip, audioSettings);
 
-        //FaceController.instance.UpdateMouthSize(this.currentSettings.volume);
-
         //Start coroutine to play Vowel
         StartCoroutine(this.PlayVowelAfterConsonent(consonantClip));
     }
