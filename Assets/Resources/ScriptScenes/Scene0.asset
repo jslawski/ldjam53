@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0908758d9dd7c9147a78ea53fea96462, type: 3}
   m_Name: Scene0
   m_EditorClassIdentifier: 
-  promptCutsceneFileName: promptCutscene0.mp4
-  responseCutsceneFileName: responseCutscene0.mp4
-  responseSentence: WHO A_RE YOU?
-  responseCutsceneFacePosition: {x: 0, y: 0, z: 0}
-  responseCutsceneFaceRotation: {x: 0, y: 0, z: 0}
-  responseCutsceneFaceScale: {x: 0, y: 0, z: 0}
+  gameplayPromptCutsceneFileName: ChazGamePrompt
+  playbackPromptCutsceneFileName: Scene000
+  promptVoicelineFileName: 
+  playbackResponseCutsceneFileName: FlearpScene000
+  responseSentence: I HEA_R
+  responseCutsceneFacePosition: {x: 0.6, y: 1.41, z: -1.65}
+  responseCutsceneFaceRotation: {x: 3, y: 23, z: -5.5}
+  responseCutsceneFaceScale: {x: 4.3, y: 4.3, z: 4.3}

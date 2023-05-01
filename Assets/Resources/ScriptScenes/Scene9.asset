@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0908758d9dd7c9147a78ea53fea96462, type: 3}
+  m_Name: Scene9
+  m_EditorClassIdentifier: 
+  gameplayPromptCutsceneFileName: ChazGamePrompt
+  playbackPromptCutsceneFileName: Scene009
+  promptVoicelineFileName: 
+  playbackResponseCutsceneFileName: FlearpScene009
+  responseSentence: B_UT DI_FF_ER_ENT F_ACE
+  responseCutsceneFacePosition: {x: 0.6, y: 1.41, z: -1.65}
+  responseCutsceneFaceRotation: {x: 3, y: 23, z: -5.5}
+  responseCutsceneFaceScale: {x: 4.3, y: 4.3, z: 4.3}
