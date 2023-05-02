@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 966917341}
   - component: {fileID: 966917340}
   - component: {fileID: 966917339}
+  - component: {fileID: 966917342}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -207,6 +208,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &966917342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 966917338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 085a290d1d505cd469a835de7dc830c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadePanel: {fileID: 1812535581}
 --- !u!1 &1310920124
 GameObject:
   m_ObjectHideFlags: 0
@@ -388,7 +402,6 @@ GameObject:
   - component: {fileID: 1697966924}
   - component: {fileID: 1697966926}
   - component: {fileID: 1697966925}
-  - component: {fileID: 1697966927}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -454,20 +467,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1697966923}
   m_CullTransparentMesh: 0
---- !u!114 &1697966927
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1697966923}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a070e60e9776d4d4b9afe89910915b2a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  secondsToWaitBeforeTransition: 3
-  fader: {fileID: 1812535581}
 --- !u!224 &1812535578 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 954627237531684367, guid: f0fbd605655c26549afa7e0501c6bc18, type: 3}
@@ -484,51 +483,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 993b780d75ece7a43b7e1efff4f41395, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1936172634
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1936172635}
-  - component: {fileID: 1936172636}
-  m_Layer: 0
-  m_Name: SceneLoader
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1936172635
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1936172634}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 877.25, y: 73.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1936172636
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1936172634}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 085a290d1d505cd469a835de7dc830c7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fadePanel: {fileID: 1812535581}
 --- !u!1001 &954627238000858901
 PrefabInstance:
   m_ObjectHideFlags: 0

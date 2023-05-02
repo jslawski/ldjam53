@@ -41,6 +41,8 @@ public class PlayerController : MonoBehaviour
     {
         while (true)
         {
+            Cursor.visible = false;
+
             this.HandleInput();
 
             AudioPlayback.instance.PlayAudio(this.currentMouthSettings);
