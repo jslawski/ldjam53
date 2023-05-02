@@ -164,7 +164,7 @@ public class AudioPlayback : MonoBehaviour
         {
             tonedVowel += "_1";
         }
-        else if (this.currentSettings.volume <= 0.7f)
+        else if (this.currentSettings.volume <= 0.9f)
         {
             tonedVowel += "_2";
         }

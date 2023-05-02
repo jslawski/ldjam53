@@ -58,7 +58,7 @@ public class ThroatBulge : MonoBehaviour
             bulgeMidpoint = this.bulgeHeight;
         }
 
-        float bulgeWidthPeak = Mathf.Lerp(this.defaultWidth, this.maxBulgeWidth, Mathf.Abs(0.5f - mousePlayspacePosition.x));
+        float bulgeWidthPeak = Mathf.Lerp(this.defaultWidth, this.maxBulgeWidth, ((1 - mousePlayspacePosition.x / 1.0f) / 2.0f));
         float bulgeWidthTips = Mathf.Max((bulgeWidthPeak / 2.0f), this.defaultWidth);
 
         float bulgeLowerMidpoint = Mathf.Max(bulgeMidpoint - this.bulgeHeight, 0.0f);
@@ -91,6 +91,5 @@ public class ThroatBulge : MonoBehaviour
         Vector3 throatBottom = this.throat.GetPosition(0);
         Vector3 throatTop = this.throat.GetPosition(100);
 
-        Debug.LogError("Throat Bottom: " + throatBottom + " Throat Top: " + throatTop);
     }
 }

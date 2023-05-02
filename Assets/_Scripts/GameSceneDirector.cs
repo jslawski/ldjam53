@@ -77,6 +77,8 @@ public class GameSceneDirector : MonoBehaviour
     {
         Cursor.visible = false;
         this.StartNewScene();
+
+        this.PlayBGM("gameplayBGM2");
     }
 
     #region Utility
@@ -91,8 +93,6 @@ public class GameSceneDirector : MonoBehaviour
 
     private void PlayBGM(string bgmFileName)
     {
-        return;
-
         if (this.muted == true)
         {
             return;
@@ -234,8 +234,7 @@ public class GameSceneDirector : MonoBehaviour
         this.faceMode.HideFace();
 
         this.fadePanel.FadeFromBlack();
-
-        this.PlayBGM("cutsceneBGM");
+        
         this.PlayVoiceline(this.currentSceneId, this.PromptVoicelineComplete);        
     }
 
@@ -257,7 +256,7 @@ public class GameSceneDirector : MonoBehaviour
     {
         this.fadePanel.SetAlpha(1.0f);
 
-        this.PlayBGM("GameBGM");
+        //this.PlayBGM("GameBGM");
         this.cutsceneImage.texture = this.gameBG;
         this.faceMode.OrientFace(this.gameplayFacePosition, this.gameplayFaceRotation, this.gameplayFaceScale);
 
@@ -318,7 +317,7 @@ public class GameSceneDirector : MonoBehaviour
     {
         this.playbackSceneId = 0;
 
-        this.PlayBGM("cutsceneBGM");
+        this.PlayBGM("gameplayBGM");
 
         this.fadePanel.FadeFromBlack();
 
