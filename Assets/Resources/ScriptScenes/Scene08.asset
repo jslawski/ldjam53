@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Scene08
   m_EditorClassIdentifier: 
   gameplayPromptCutsceneFileName: ChazGamePrompt
-  playbackPromptCutsceneFileName: Scene008
+  playbackPromptCutsceneFileName: Scene008.mp4
   promptVoicelineFileName: 08
   playbackResponseCutsceneFileName: FlearpScene008
   responseSentence: YOU DI_D THI_S?

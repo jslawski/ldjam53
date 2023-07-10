@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Scene11
   m_EditorClassIdentifier: 
   gameplayPromptCutsceneFileName: ChazGamePrompt
-  playbackPromptCutsceneFileName: Scene011
+  playbackPromptCutsceneFileName: Scene011.mp4
   promptVoicelineFileName: 11
   playbackResponseCutsceneFileName: FlearpScene011
   responseSentence: I CA_N'_T BE_LIE_VE YOU CO_N_FE_SS_ED

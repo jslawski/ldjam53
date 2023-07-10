@@ -58,7 +58,12 @@ public class AudioPlayback : MonoBehaviour
                 this.PlayVowel();
             }
         }
-    }    
+    }
+
+    public void StopAudio()
+    {
+        AudioManager.instance.Stop(this.vowelChannelId);
+    }
 
     //Consonants should only be played when:
     //The space bar has changed from unpressed to pressed

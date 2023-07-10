@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Scene02
   m_EditorClassIdentifier: 
   gameplayPromptCutsceneFileName: ChazGamePrompt
-  playbackPromptCutsceneFileName: Scene002
+  playbackPromptCutsceneFileName: Scene002.mp4
   promptVoicelineFileName: 02
   playbackResponseCutsceneFileName: FlearpScene002
   responseSentence: I HA_VE O_FF_S_P_RI_N_G?

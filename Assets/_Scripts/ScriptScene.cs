@@ -27,7 +27,7 @@ public class ScriptScene : ScriptableObject
 
     public string GetPlaybackPromptCutsceneURL()
     {
-        return System.IO.Path.Combine(Application.streamingAssetsPath, this.playbackPromptCutsceneFileName + ".mp4");
+        return System.IO.Path.Combine(Application.streamingAssetsPath, this.playbackPromptCutsceneFileName);
     }
 
     public Texture GetPlaybackResponseCutscene()

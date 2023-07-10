@@ -45,6 +45,7 @@ public class GameSceneDirector : MonoBehaviour
     private delegate void CutsceneComplete();
     private delegate void VoicelineComplete();
     private delegate void RecordedSentencePlaybackComplete();
+    private delegate void OnCutscenePrepared();
 
     public bool muted = true;
 
@@ -61,7 +62,7 @@ public class GameSceneDirector : MonoBehaviour
             instance = this;
         }
 
-        this.bgmAudioSettings = new AudioChannelSettings(true, 1.0f, 1.0f, 1.0f, "BGM");
+        this.bgmAudioSettings = new AudioChannelSettings(true, 1.0f, 1.0f, 0.45f, "BGM");
         this.voicelineAudioSettings = new AudioChannelSettings(false, 1.0f, 1.0f, 1.0f, "Voice");
 
         FullScript.SetupFullScript();
@@ -78,7 +79,7 @@ public class GameSceneDirector : MonoBehaviour
         Cursor.visible = false;
         this.StartNewScene();
 
-        this.PlayBGM("gameplayBGM2");
+        this.PlayBGM("gameplay");
     }
 
     #region Utility
@@ -118,6 +119,8 @@ public class GameSceneDirector : MonoBehaviour
 
     private void PlayVideoCutscene(string cutsceneFileName, bool looping = false, CutsceneComplete functionAfterComplete = null)
     {
+        this.cutscenePlayer.Stop();
+
         string filePath = System.IO.Path.Combine(Application.streamingAssetsPath, cutsceneFileName);
         this.cutscenePlayer.url = filePath;
 
@@ -130,7 +133,12 @@ public class GameSceneDirector : MonoBehaviour
 
         if (looping == false)
         {
+            this.cutscenePlayer.isLooping = false;
             StartCoroutine(this.WaitForCutsceneToFinish(functionAfterComplete));
+        }
+        else
+        {
+            this.cutscenePlayer.isLooping = true;
         }
     }
 
@@ -200,9 +208,21 @@ public class GameSceneDirector : MonoBehaviour
         functionAfterComplete();
     }
 
-    private void PlayAlertAnimation()
+    private void WaitForCutscenePrepared(OnCutscenePrepared functionAfterComplete)
     {
+        StartCoroutine(this.WaitForCutscenePreparedCoroutine(functionAfterComplete));
+    }
 
+    private IEnumerator WaitForCutscenePreparedCoroutine(OnCutscenePrepared functionAfterComplete)
+    {
+        while (this.cutscenePlayer.isPrepared == false)
+        {
+            yield return null;
+        }
+
+        yield return null;
+
+        functionAfterComplete();
     }
 
     #endregion
@@ -245,18 +265,22 @@ public class GameSceneDirector : MonoBehaviour
     }
 
     private void PlayPlayerZoomCutscene()
-    {        
+    {
         this.fadePanel.OnFadeSequenceComplete -= this.PlayPlayerZoomCutscene;
-        this.fadePanel.FadeFromBlack();
 
         this.PlayVideoCutscene("Alien_GameplayTransition.mp4", false, this.PlayerZoomCutsceneFinish);
+
+        this.WaitForCutscenePrepared(this.RevealPlayerZoomCutscene);        
+    }
+
+    private void RevealPlayerZoomCutscene()
+    {
+        
+        this.fadePanel.FadeFromBlack();
     }
 
     private void PlayerZoomCutsceneFinish()
     {
-        this.fadePanel.SetAlpha(1.0f);
-
-        //this.PlayBGM("GameBGM");
         this.cutsceneImage.texture = this.gameBG;
         this.faceMode.OrientFace(this.gameplayFacePosition, this.gameplayFaceRotation, this.gameplayFaceScale);
 
@@ -270,17 +294,11 @@ public class GameSceneDirector : MonoBehaviour
     {
         this.fadePanel.OnFadeSequenceComplete -= this.BeginGameplay;
 
-        //Play begin game animation here
-
-        //Put this at the end of it
         this.player.ActivateGameplay();        
     }
 
     public void EndGameplay()
     {
-        //Play endgame animation here
-        //Copy/paste stuff from the coroutine at the end of it
-
         StartCoroutine(EndGameplayCoroutine());
     }
 
@@ -317,31 +335,33 @@ public class GameSceneDirector : MonoBehaviour
     {
         this.playbackSceneId = 0;
 
-        this.PlayBGM("gameplayBGM");
-
-        this.fadePanel.FadeFromBlack();
-
+        this.PlayBGM("playback");
+        
         //Show establishing cutscene 
-        this.PlayVideoCutscene("EndCutScene_Intro.mp4", false, this.PlayNextPlaybackScene);                
+        this.PlayVideoCutscene("EndCutScene_Intro.mp4", false, this.PlayNextPlaybackScene);
+
+        this.WaitForCutscenePrepared(RevealEndCutScene);
+    }
+
+    private void RevealEndCutScene()
+    {
+        this.fadePanel.FadeFromBlack();
     }
 
     private void PlayNextPlaybackScene()
     {
         this.faceMode.HideFace();
 
-        this.fadePanel.SetAlpha(1.0f);
-
-        this.fadePanel.OnFadeSequenceComplete += this.PlayPlaybackVoicelineCutscene;
-        this.fadePanel.FadeFromBlack();              
+        this.PlayVideoCutscene(FullScript.allScenes[this.playbackSceneId].playbackPromptCutsceneFileName, true);
+        this.WaitForCutscenePrepared(this.PlayPlaybackVoicelineCutscene);               
     }
 
     private void PlayPlaybackVoicelineCutscene()
     {        
-        this.fadePanel.OnFadeSequenceComplete -= this.PlayPlaybackVoicelineCutscene;
-        this.PlayVideoCutscene(FullScript.allScenes[this.playbackSceneId].GetPlaybackPromptCutsceneURL(), true);
-        this.PlayVoiceline(this.playbackSceneId, PlaybackVoicelineComplete);            
+        this.fadePanel.FadeFromBlack();
+        this.PlayVoiceline(this.playbackSceneId, this.PlaybackVoicelineComplete);        
     }
-
+    
     private void PlaybackVoicelineComplete()
     {
         this.fadePanel.OnFadeSequenceComplete += this.SetupPlaybackRecordedSentence;

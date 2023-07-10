@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Scene16
   m_EditorClassIdentifier: 
   gameplayPromptCutsceneFileName: ChazGamePrompt
-  playbackPromptCutsceneFileName: Scene016
+  playbackPromptCutsceneFileName: Scene016.mp4
   promptVoicelineFileName: 16
   playbackResponseCutsceneFileName: FlearpScene016
   responseSentence: HO_W HA_VE SO_N I_F I_N CO_MA?

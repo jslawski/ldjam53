@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Scene06
   m_EditorClassIdentifier: 
   gameplayPromptCutsceneFileName: ChazGamePrompt
-  playbackPromptCutsceneFileName: Scene006
+  playbackPromptCutsceneFileName: Scene006.mp4
   promptVoicelineFileName: 06
   playbackResponseCutsceneFileName: FlearpScene006
   responseSentence: YOU KI_D_NA_PP_ED P_R_E_SI_DE_N_T_S DO_G

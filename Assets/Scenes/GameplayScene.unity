@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18388027, g: 0.22882369, b: 0.30192262, a: 1}
+  m_IndirectSpecularColor: {r: 0.4514308, g: 0.50072134, b: 0.57124436, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -314,7 +314,7 @@ VideoPlayer:
   m_TargetMaterialRenderer: {fileID: 0}
   m_TargetMaterialProperty: <noninit>
   m_RenderMode: 2
-  m_AspectRatio: 1
+  m_AspectRatio: 2
   m_DataSource: 1
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 2
@@ -328,7 +328,7 @@ VideoPlayer:
   m_ControlledAudioTrackCount: 1
   m_PlayOnAwake: 0
   m_SkipOnDrop: 1
-  m_Looping: 0
+  m_Looping: 1
   m_WaitForFirstFrame: 1
   m_FrameReadyEventEnabled: 0
   m_VideoShaders: []
@@ -1335,7 +1335,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 13
+  m_fontSize: 11.05
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1670,7 +1670,7 @@ PrefabInstance:
     - target: {fileID: 1497021683802728186, guid: 58a7020663cc39240abce339959e93e2, type: 3}
       propertyPath: m_Materials.Array.data[3]
       value: 
-      objectReference: {fileID: 2100000, guid: 88374d0f476833a47a510a1cf1c6d3b5, type: 2}
+      objectReference: {fileID: 2100000, guid: e6593ced9491ed4469fafeee3f15a30d, type: 2}
     - target: {fileID: 1497021683802728186, guid: 58a7020663cc39240abce339959e93e2, type: 3}
       propertyPath: m_BlendShapeWeights.Array.data[0]
       value: 0
@@ -2043,7 +2043,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioChannelPrefab: {fileID: 3198527283903495338, guid: f37332798cac2a14a9600abd037437d8, type: 3}
-  audioChannelCacheSize: 50
+  audioChannelCacheSize: 10
 --- !u!4 &1892272844
 Transform:
   m_ObjectHideFlags: 0

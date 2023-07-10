@@ -24,20 +24,19 @@ public class MainMenuManager : MonoBehaviour
             instance = this;
         }
 
-        this.fadePanel.SetAlpha(1.0f);
         this.fadePanel.FadeFromBlack();
     }
 
     public void Start()
     {
-        AudioChannelSettings menuAudioSettings = new AudioChannelSettings(true, 1, 1, 1, "BGM");
+        AudioChannelSettings menuAudioSettings = new AudioChannelSettings(true, 1, 1, 0.7f, "BGM");
         AudioManager.instance.Play(this.menuMusic, menuAudioSettings);
 
         this.mouthFeel = Resources.LoadAll<AudioClip>("MouthFeel");
 
         AudioClip randomMouthFeel = this.mouthFeel[Random.Range(0, this.mouthFeel.Length)];
 
-        AudioChannelSettings mouthFeelAudioSettings = new AudioChannelSettings(false, 1, 1, 1, "Voice");
+        AudioChannelSettings mouthFeelAudioSettings = new AudioChannelSettings(false, 1, 1, 1, "SFX");
         AudioManager.instance.Play(randomMouthFeel, mouthFeelAudioSettings);
     }
 

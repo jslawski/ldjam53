@@ -9,7 +9,7 @@ public class ToBeContinuedMenu : MonoBehaviour
     private FadePanelManager fadePanel;
     
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         StartCoroutine(this.ReturnToMenu());            
     }
@@ -19,6 +19,7 @@ public class ToBeContinuedMenu : MonoBehaviour
         yield return new WaitForSeconds(5.0f);
 
         this.fadePanel.OnFadeSequenceComplete += this.ChangeToMenuScene;
+        this.fadePanel.FadeToBlack();
     }
 
     // Update is called once per frame

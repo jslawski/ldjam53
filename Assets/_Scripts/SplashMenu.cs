@@ -12,12 +12,11 @@ public class SplashMenu : MonoBehaviour
 
     private void Awake()
     {
-        this.fadePanel.SetAlpha(1.0f);
         this.fadePanel.OnFadeSequenceComplete += this.DisplaySplashScreen;
         this.fadePanel.FadeFromBlack();
 
-        QualitySettings.vSyncCount = 0;
-        Application.targetFrameRate = 60;
+        //QualitySettings.vSyncCount = 0;
+        //Application.targetFrameRate = 60;
     }
 
     private void DisplaySplashScreen()

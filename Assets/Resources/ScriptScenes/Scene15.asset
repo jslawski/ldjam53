@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Scene15
   m_EditorClassIdentifier: 
   gameplayPromptCutsceneFileName: ChazGamePrompt
-  playbackPromptCutsceneFileName: Scene015
+  playbackPromptCutsceneFileName: Scene015.mp4
   promptVoicelineFileName: 15
   playbackResponseCutsceneFileName: FlearpScene015
   responseSentence: CO_P_S O_N WAY

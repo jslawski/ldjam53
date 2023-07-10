@@ -8,35 +8,29 @@ public class FadePanelManager : MonoBehaviour
     [SerializeField]
     private Image fadePanel;
     [SerializeField]
-    private float fadeSpeed = 5.0f;
+    private float fadeDuration = 0.5f;
 
-    [SerializeField]
-    private bool defaultBlack = false;
+    private float alphaChangePerFrame;
 
     public delegate void FadeComplete();
     public event FadeComplete OnFadeSequenceComplete;
 
-    private void Awake()
+    private void Start()
     {
-        if (this.defaultBlack == true)
-        {
-            this.fadePanel.fillAmount = 1.0f;
-        }
-        else
-        {
-            this.fadePanel.fillAmount = 0.0f;
-        }
+        this.alphaChangePerFrame = (1.0f / this.fadeDuration) * Time.fixedDeltaTime;
     }
 
     public void FadeToBlack()
     {
         StopAllCoroutines();
+        this.SetAlpha(0.0f);
         StartCoroutine(this.FadeToBlackCoroutine());
     }
 
     public void FadeFromBlack()
     {
         StopAllCoroutines();
+        this.SetAlpha(1.0f);
         StartCoroutine(this.FadeFromBlackCoroutine());
     }
 
@@ -46,37 +40,37 @@ public class FadePanelManager : MonoBehaviour
         fadePanel.color = updatedColor;
     }
 
-    private IEnumerator FadeToBlackCoroutine()
-    {
-        while (fadePanel.color.a < 1 || Time.deltaTime == 0.0f)
-        {
-            Color updatedColor = new Color(this.fadePanel.color.r, this.fadePanel.color.g, this.fadePanel.color.b, this.fadePanel.color.a + (this.fadeSpeed * Time.fixedDeltaTime));
-            fadePanel.color = updatedColor;
-            yield return new WaitForFixedUpdate();
-        }
-
-        this.fadePanel.color = new Color(this.fadePanel.color.r, this.fadePanel.color.g, this.fadePanel.color.b, 1.0f);
-
-        if (this.OnFadeSequenceComplete != null)
-        {
-            this.OnFadeSequenceComplete();
-        }
-    }
-
     private IEnumerator FadeFromBlackCoroutine()
     {
-        while (fadePanel.color.a > 0 || Time.deltaTime == 0.0f)
+        while (fadePanel.color.a > 0)
         {
-            Color updatedColor = new Color(this.fadePanel.color.r, this.fadePanel.color.g, this.fadePanel.color.b, this.fadePanel.color.a - (this.fadeSpeed * Time.fixedDeltaTime));
-            fadePanel.color = updatedColor;
+            float newAlpha = this.fadePanel.color.a - this.alphaChangePerFrame;
+            Color updatedColor = new Color(this.fadePanel.color.r, this.fadePanel.color.g, this.fadePanel.color.b, newAlpha);
+            this.fadePanel.color = updatedColor;
+
             yield return new WaitForFixedUpdate();
         }
-
-        this.fadePanel.color = new Color(this.fadePanel.color.r, this.fadePanel.color.g, this.fadePanel.color.b, 0.0f);
 
         if (this.OnFadeSequenceComplete != null)
         {
             this.OnFadeSequenceComplete();
         }
     }
+
+    private IEnumerator FadeToBlackCoroutine()
+    {
+        while (fadePanel.color.a < 1)
+        {
+            float newAlpha = this.fadePanel.color.a + this.alphaChangePerFrame;
+            Color updatedColor = new Color(this.fadePanel.color.r, this.fadePanel.color.g, this.fadePanel.color.b, newAlpha);
+            this.fadePanel.color = updatedColor;
+
+            yield return new WaitForFixedUpdate();
+        }
+
+        if (this.OnFadeSequenceComplete != null)
+        {
+            this.OnFadeSequenceComplete();
+        }
+    }    
 }

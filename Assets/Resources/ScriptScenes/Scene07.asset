@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Scene07
   m_EditorClassIdentifier: 
   gameplayPromptCutsceneFileName: ChazGamePrompt
-  playbackPromptCutsceneFileName: Scene007
+  playbackPromptCutsceneFileName: Scene007.mp4
   promptVoicelineFileName: 07
   playbackResponseCutsceneFileName: FlearpScene007
   responseSentence: I SAW

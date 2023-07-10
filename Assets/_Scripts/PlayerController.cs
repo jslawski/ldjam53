@@ -83,11 +83,13 @@ public class PlayerController : MonoBehaviour
 
         FullScript.recordedSentences.Add(new RecordedSentence(currentRecordedSentence));
 
+        AudioPlayback.instance.StopAudio();
+
         this.EndGameplay();
     }
 
     private void EndGameplay()
-    {
+    {        
         WordDisplay.instance.ClearWord();
 
         StopAllCoroutines();

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Scene14
   m_EditorClassIdentifier: 
   gameplayPromptCutsceneFileName: ChazGamePrompt
-  playbackPromptCutsceneFileName: Scene014
+  playbackPromptCutsceneFileName: Scene014.mp4
   promptVoicelineFileName: 14
   playbackResponseCutsceneFileName: FlearpScene014
   responseSentence: I WA_S FA_K_I_N_G
